@@ -18,3 +18,4 @@ A running list of tasks, both short term and long term.
 - [ ] Add a _links_ section to the Landing Page to link things dynamically
 - [ ] Tie in Linode S3 for object storage
 - [ ] Store blog posts as `*.md` files in S3 and provide a txt only path to them
+- [ ] A what-are-all-of-those-files.md documents which details the different files and things in my repo. Something I wish I could have seen when I started and was inundated with dot-files (files that start with a '.')
