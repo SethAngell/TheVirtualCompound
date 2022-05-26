@@ -1,0 +1,20 @@
+# The Compound: Our little corner of the internet
+The compound is the next logical progression of my personal
+portfolio site. A more dynamic, user friendly version which
+my friends can use as a blog and general portfolio. 
+
+Built using Django, styled with Tailwind, contained in docker, proxied by nginx, and chugging away happily on Linode. 
+
+## ToDo:
+A running list of tasks, both short term and long term.
+
+### Short Term:
+- [ ] Rebuild Landing Page with Tailwind
+- [ ] Migrate blog from sethangell.com to here
+- [ ] Create a footer
+- [ ] Create a login/signup flow
+
+### Long Term:
+- [ ] Add a _links_ section to the Landing Page to link things dynamically
+- [ ] Tie in Linode S3 for object storage
+- [ ] Store blog posts as `*.md` files in S3 and provide a txt only path to them

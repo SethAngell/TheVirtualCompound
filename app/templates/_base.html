@@ -1,0 +1,22 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="initial-scale=1">
+    {% block meta %}
+    {% endblock %}
+    {% block style %}
+    {% endblock %}
+    <link rel="preconnect" href="https://fonts.googleapis.com"> 
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> 
+    <link href="https://fonts.googleapis.com/css2?family=Red+Hat+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!--TODO: Figure out where to source a full name efficiently-->
+    <title>{{ meta.name }}: {% block title %}{% endblock title %}</title>
+{% block content %} 
+{% endblock content %}
+</body>
+</html>
+    
+
