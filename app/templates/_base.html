@@ -4,18 +4,33 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="initial-scale=1">
+    
+    <style>
+    {% block style %}
+    
+        h1, p, a, .content-body{
+            font-family: 'Red Hat Mono', monospace;
+        }
+    {% endblock %}
+    </style>
+
     {% block meta %}
     {% endblock %}
-    {% block style %}
-    {% endblock %}
+    
     <link rel="preconnect" href="https://fonts.googleapis.com"> 
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> 
+    {% block font %}
     <link href="https://fonts.googleapis.com/css2?family=Red+Hat+Mono:wght@400;700&display=swap" rel="stylesheet">
+    {% endblock %}
     <script src="https://cdn.tailwindcss.com"></script>
+    
+
     <!--TODO: Figure out where to source a full name efficiently-->
     <title>{{ meta.name }}: {% block title %}{% endblock title %}</title>
+<body class="w-screen h-screen bg-slate-50 dark:bg-slate-800">
 {% block content %} 
 {% endblock content %}
+
 </body>
 </html>
     
