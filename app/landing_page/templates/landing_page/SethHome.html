@@ -64,10 +64,22 @@
         </div>
     </div>
 
-    <div id="background" class="text-[#05386B] basis-1/2 mt-8 flex-grow bg-inherit lg:overflow-auto flex flex-col justify-start content-center px-8 space-y-20">
+    <div id="background" class="text-[#05386B] basis-1/2 mt-8 flex-grow bg-inherit lg:overflow-auto flex flex-col justify-start content-center px-8 space-y-10">
         <div id="bio">
             <h1 class=" text-2xl">About Me:</h1>
             <p class="text-lg ">{{ landing.bio }}</p>
+        </div>
+        
+        <div id="favorite-things">
+            <h1 class="text-2xl mb-4">My Favorite Things:</h1>
+            <div class="grid md:grid-cols-3 lg:grid-cols-2 grid-cols-2 gap-y-2">
+                {% for thing in landing.favorite_things.all %}
+                    <div id="thing-{{ thing.thing_name }}" class="flex flex-row items-center content-center flex-shrink space-x-3">
+                        <img src="{{thing.svg_icon.url}}" class="w-8 fill-red">
+                        <h2 class="text-xl">{{thing.thing_name}}</h2>
+                    </div>
+                {% endfor %}
+            </div>
         </div>
         <div id="experience" class="flex flex-col space-y-4">
             {% for job in experience %}

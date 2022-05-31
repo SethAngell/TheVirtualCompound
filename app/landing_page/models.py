@@ -32,6 +32,9 @@ class Design(models.Model):
         return self.name
 
 
+# TODO: Add a better way to extract values from SVG for more dynamic use
+#   -> Pull Path and Viewbox
+#   -> Reconstruct SVG in template with Tailwind classes for colors
 class FavoriteThing(models.Model):
     thing_name = models.CharField(max_length=150)
     svg_icon = models.FileField(upload_to="favorite_things/", validators=[validate_svg])
