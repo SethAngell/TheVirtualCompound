@@ -19,7 +19,13 @@ class DesignAdmin(admin.ModelAdmin):
 
 
 class FavoriteThingAdmin(admin.ModelAdmin):
-    fields = ["svg_icon", "thing_name", "image_tag"]
+    fields = [
+        "svg_icon",
+        "thing_name",
+        "image_tag",
+        "path_attribute",
+        "viewbox_attribute",
+    ]
     readonly_fields = ["image_tag"]
 
 

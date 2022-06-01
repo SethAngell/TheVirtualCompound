@@ -27,39 +27,37 @@
 {% block content %}
 
 <div id="main" class="h-screen flex flex-col justify-between lg:flex-row">
-    <div id="intro" class=" basis-1/2 bg-inherit flex flex-col justify-center content-center">
-        <div class="mx-0 lg:mx-4 xl:mx-20 2xl:mx-40 h-full lg:h-min flex flex-col bg-teal-400 text-slate-200 bg-[url('{% static 'landing_page/assets/ilm_overlay.svg'%}')] bg-right bg-cover bg-no-repeat justify-center content-center items-center p-8 pb-4 lg:rounded-2xl shadow-2xl">
-            <img class="rounded-full w-44 lg:w-64 shadow-2xl" src="{{ landing.avatar.url }}">
-            <h1 class="mx-auto w-4/5 lg:w-11/12 px-4 pt-8 text-center font-black  md:text-3xl text-2xl text-[#05386B]">{{landing.headline}}</h1>
+    <div id="intro" class="relative basis-1/2 bg-inherit flex flex-col justify-center content-center mx-0 h-full flex flex-col bg-teal-400 text-slate-200 bg-[url('{% static 'landing_page/assets/ilm_overlay.svg'%}')] bg-right bg-cover bg-no-repeat justify-center content-center items-center p-8 pb-4">
+        <img class="rounded-full w-44 lg:w-64 shadow-2xl" src="{{ landing.avatar.url }}">
+        <h1 class="mx-auto w-4/5 lg:w-11/12 px-4 pt-8 text-center font-black  md:text-3xl text-2xl text-[#05386B]">{{landing.headline}}</h1>
 
-            <a href="mailto:{{ landing.contact_email }}" class=".content-body border-2 border-[#05386B] bg-transparent text-[#05386B] hover:bg-[#05386B] hover:text-slate-50 px-5 py-2 my-6 text-lg leading-5 rounded-md font-semibold ">
-                Say Hi 
-            </a>
-            <div class="flex flex-row justify-between w-full">
-                <div class="flex flex-row space-x-2">
-                    <a href="#blog" class=".content-body text-[#05386B] hover:text-[#05056B] text-lg">BLOG</a>
-                    {% if landing.resume.url|length > 0 %}
-                    <p class="text-[#05386B] text-lg font-black .content-body">•</p>
-                    <a href="{{ landing.resume.url }}" class=".content-body text-[#05386B] hover:text-[#05056B] text-lg">RESUME</a>
-                    {% endif %}
-                </div>
-                <div class="flex flex-row text-2xl  text-[#05386B] space-x-3">
-                    {% if landing.instagram|length > 0 %}
-                    <a href="https://instagram.com/{{ landing.instagram }}" class="hover:text-[#05056B]"><i class="fab fa-instagram"></i></a>
-                    {% endif %}
-                    {% if landing.twitter|length > 0 %}
-                    <a href="https://twitter.com/{{ landing.twitter }}" class="hover:text-[#05056B]"><i class="fab fa-twitter"></i></a>
-                    {% endif %}
-                    {% if landing.github|length > 0 %}
-                    <a href="https://github.com/{{ landing.github }}" class="hover:text-[#05056B]"><i class="fab fa-github"></i></a>
-                    {% endif %}
-                    {% if landing.spotify|length > 0 %}
-                    <a href="https://open.spotify.com/user/{{ landing.spotify }}" class="hover:text-[#05056B]"><i class="fab fa-spotify"></i></a>
-                    {% endif %}
-                    {% if landing.linkedin|length > 0 %}
-                    <a href="https://linkedin.com/in/{{ landing.linkedin }}" class="hover:text-[#05056B]"><i class="fab fa-linkedin"></i></a>
-                    {% endif %}
-                </div>
+        <a href="mailto:{{ landing.contact_email }}" class=".content-body border-2 border-[#05386B] bg-transparent text-[#05386B] hover:bg-[#05386B] hover:text-slate-50 px-5 py-2 my-6 text-lg leading-5 rounded-md font-semibold ">
+            Say Hi 
+        </a>
+        <div class="absolute bottom-0 flex flex-row justify-between w-full px-2 xl:px-6 pb-0 xl:pb-2">
+            <div class="flex flex-row space-x-2 text-lg xl:text-2xl">
+                <a href="#blog" class=".content-body text-[#05386B] hover:text-[#05056B] ">BLOG</a>
+                {% if landing.resume.url|length > 0 %}
+                <p class="text-[#05386B] text-lg font-black .content-body">•</p>
+                <a href="{{ landing.resume.url }}" class=".content-body text-[#05386B] hover:text-[#05056B]">RESUME</a>
+                {% endif %}
+            </div>
+            <div class="flex flex-row text-2xl xl:text-4xl  text-[#05386B] space-x-3">
+                {% if landing.instagram|length > 0 %}
+                <a href="https://instagram.com/{{ landing.instagram }}" class="hover:text-[#05056B]"><i class="fab fa-instagram"></i></a>
+                {% endif %}
+                {% if landing.twitter|length > 0 %}
+                <a href="https://twitter.com/{{ landing.twitter }}" class="hover:text-[#05056B]"><i class="fab fa-twitter"></i></a>
+                {% endif %}
+                {% if landing.github|length > 0 %}
+                <a href="https://github.com/{{ landing.github }}" class="hover:text-[#05056B]"><i class="fab fa-github"></i></a>
+                {% endif %}
+                {% if landing.spotify|length > 0 %}
+                <a href="https://open.spotify.com/user/{{ landing.spotify }}" class="hover:text-[#05056B]"><i class="fab fa-spotify"></i></a>
+                {% endif %}
+                {% if landing.linkedin|length > 0 %}
+                <a href="https://linkedin.com/in/{{ landing.linkedin }}" class="hover:text-[#05056B]"><i class="fab fa-linkedin"></i></a>
+                {% endif %}
             </div>
         </div>
     </div>

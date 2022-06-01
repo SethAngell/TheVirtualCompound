@@ -32,12 +32,18 @@ class Design(models.Model):
         return self.name
 
 
+class Map(models.Model):
+    location_name = models.CharField(max_length=150)
+
+
 # TODO: Add a better way to extract values from SVG for more dynamic use
 #   -> Pull Path and Viewbox
 #   -> Reconstruct SVG in template with Tailwind classes for colors
 class FavoriteThing(models.Model):
     thing_name = models.CharField(max_length=150)
-    svg_icon = models.FileField(upload_to="favorite_things/", validators=[validate_svg])
+    svg_icon = models.FileField(upload_to="favorite_things/")
+    path_attribute = models.CharField(max_length=10000, null=True, blank=True)
+    viewbox_attribute = models.CharField(max_length=128, null=True, blank=True)
 
     def __str__(self):
         return f"Icon: {self.thing_name}"
@@ -49,6 +55,22 @@ class FavoriteThing(models.Model):
         )
 
     image_tag.short_description = "Image"
+
+    def extract_path(self, file):
+        tree = et.parse(file)
+        root = tree.getroot()
+
+        viewbox = root.attrib["viewBox"]
+        path = tree.find("./path").attrib["d"]
+        print(len(path), path[:10], len(viewbox), viewbox[:10])
+
+        return path, viewbox
+
+    def save(self, *args, **kwargs):
+        self.path_attribute, self.viewbox_attribute = self.extract_path(
+            self.svg_icon.file.file
+        )
+        super(FavoriteThing, self).save(*args, **kwargs)
 
 
 class LandingPage(models.Model):

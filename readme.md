@@ -10,8 +10,12 @@ A running list of tasks, both short term and long term.
 
 ### Short Term:
 - [ ] Rebuild Landing Page with Tailwind
+    - [ ] Create Wrightsville Outline
+    - [ ] Make outline selectable
+    - [x] Make SVGs dynamic
+    - [ ] Add Dark Mode Support for SethHome and SethHomeOldSchool
 - [ ] Migrate blog from sethangell.com to here
-- [ ] Create a footer
+- [x] Create a footer
 - [ ] Create a login/signup flow
 
 ### Long Term:

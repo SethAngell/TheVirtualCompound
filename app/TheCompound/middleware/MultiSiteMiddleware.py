@@ -1,4 +1,4 @@
-from xml import dom
+import re
 
 from accounts.models import Domain
 from django.http import HttpResponseNotFound
@@ -13,6 +13,8 @@ class MultiSiteMiddleware(object):
             domain = request.get_host().split(":")[0]
             print(domain)
             if domain == "localhost":
+                domain = f"http://{domain}"
+            elif re.match("([0-9]{1,3}\.){3}[0-9]{1,3}", domain):
                 domain = f"http://{domain}"
             request.site = Domain.objects.get(name=domain)
         except Domain.DoesNotExist:
