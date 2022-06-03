@@ -1,123 +1,117 @@
 {% extends "_base.html" %}
 {% load static %}
+{% load timeline_helper %}
 {% block meta %}
     <meta property="og:title" content="{{ landing.name }}" />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="{{ meta.url }}" />
-    <meta property="og:image" content="{{ info.avatar.url }}" />  
+    <meta property="og:image" content="{{ landing.avatar.url }}" />  
     <meta property="og:description" content="{{ landing.headline }}" />
     <meta property="og:site_name" content="{{ meta.url }}" /> 
 {% endblock meta %}
-{% block section_css %}{% static 'home/css/home.css' %}{% endblock section_css %}
+{% block style %}
+    h1, h2, a {
+        font-family: 'Rubik', sans-serif;
+    }
+
+    p {
+        font-family: 'Karla', sans-serif;
+    }
+    
+{% endblock %}
+{% block font %}
+<link href="https://fonts.googleapis.com/css2?family=Fira+Code&family=Karla&family=Rubik:wght@500;700&display=swap" rel="stylesheet">
+<script src="https://kit.fontawesome.com/273c56c702.js" crossorigin="anonymous"></script>
+{% endblock %}
 {% block title %}Home{% endblock title %}
 {% block content %}
-    {% comment %} <div class="nice-to-meet-you">
-        <div class="ntmy-main">
-            <div class="ntmy-headshot">
-                <img class="ntmy-headshot-image" src="{{ info.avatar.url }}" alt="the image of an incredibly creative dev you should work with">
-            </div>
-            <div class="ntmy-pitch">
-                 <h1>Hey, I'm Seth. I build mixed reality experiences in beautiful Wilmington, North Carolina</h1>
-            </div>
-            <a class="ntmy-collab-and-coffee" href="mailto:work@sethangell.com">
-                Collab Or Coffee?
+
+<div id="main" class="h-screen flex flex-col justify-between lg:flex-row">
+    <div id="intro" class=" basis-1/2 bg-inherit flex flex-col justify-center content-center">
+        {% if landing.map_overlay.overlay_name|length > 0 %}
+        {% with light_overlay='landing_page/assets/'|add:landing.map_overlay.overlay_name|add:'.svg' dark_overlay='landing_page/assets/'|add:landing.map_overlay.overlay_name|add:'_dark.svg' %}
+        <div class="mx-0 lg:mx-4 xl:mx-20 2xl:mx-40 h-full lg:h-min flex flex-col dark:bg-slate-900 bg-teal-400 text-[#05386B] dark:text-slate-50 bg-[url('{% static light_overlay %}')] dark:bg-[url('{% static dark_overlay %}')] bg-right bg-cover bg-no-repeat justify-center content-center items-center p-8 pb-4 lg:rounded-2xl shadow-2xl">
+        {% endwith %}
+        {% else %}
+        <div class="mx-0 lg:mx-4 xl:mx-20 2xl:mx-40 h-full lg:h-min flex flex-col bg-teal-400 text-[#05386B] dark:text-slate-50 dark:bg-slate-800 bg-right bg-cover bg-no-repeat justify-center content-center items-center p-8 pb-4 lg:rounded-2xl shadow-2xl">
+        {% endif %}
+            <img class="rounded-full w-44 lg:w-64 shadow-2xl" src="{{ landing.avatar.url }}">
+            <h1 class="mx-auto w-4/5 lg:w-11/12 px-4 pt-8 text-center font-black  md:text-3xl text-2xl">{{landing.headline}}</h1>
+
+            <a href="mailto:{{ landing.contact_email }}" class=".content-body border-2 border-[#05386B] bg-transparent hover:bg-[#05386B] hover:text-slate-50 dark:border-slate-50 dark:text-slate-50 dark:hover:bg-teal-500 dark:hover:border-teal-500 px-5 py-2 my-6 text-lg leading-5 rounded-md font-semibold ">
+                Say Hi 
             </a>
-        </div>
-        <div class="ntmy-social-container">
-                <a class="ntmy-social-link" href="https://instagram.com/SethAngell" target="_blank"><i class="fa fa-instagram"></i></a>
-                <a class="ntmy-social-link" href="https://twitter.com/SethAngell" target="_blank"><i class="fa fa-twitter"></i></a>
-                <a class="ntmy-social-link" href="https://Github.com/SethAngell" target="_blank"><i class="fa fa-github"></i></a>
-                <a class="ntmy-social-link" href="https://open.spotify.com/user/sethyboyy?si=K2cfPG1gROGBWUknNXC4RQ" target="_blank"><i class="fa fa-spotify"></i></i></a>
-        </div>
-        <div class="ntmy-site-link-container">
-            <a class="ntmy-site-link" href={% url 'blog_index' %}>blog</a>
-            |
-            <a class="ntmy-site-link" href={{ info.resume.url }}>resume</a>
+            <div class="flex flex-row justify-between w-full">
+                <div class="flex flex-row space-x-2">
+                    <a href="#blog" class=".content-body] hover:text-[#05056B] dark:hover:text-slate-400 text-lg">BLOG</a>
+                    {% if landing.resume.url|length > 0 %}
+                    <p class="text-lg font-black .content-body">•</p>
+                    <a href="{{ landing.resume.url }}" class=".content-body hover:text-[#05056B]  dark:hover:text-slate-400 text-lg">RESUME</a>
+                    {% endif %}
+                </div>
+                <div class="flex flex-row text-2xl space-x-3">
+                    {% if landing.instagram|length > 0 %}
+                    <a href="https://instagram.com/{{ landing.instagram }}" class="hover:text-[#05056B] dark:hover:text-slate-400"><i class="fab fa-instagram"></i></a>
+                    {% endif %}
+                    {% if landing.twitter|length > 0 %}
+                    <a href="https://twitter.com/{{ landing.twitter }}" class="hover:text-[#05056B] dark:hover:text-slate-400"><i class="fab fa-twitter"></i></a>
+                    {% endif %}
+                    {% if landing.github|length > 0 %}
+                    <a href="https://github.com/{{ landing.github }}" class="hover:text-[#05056B] dark:hover:text-slate-400"><i class="fab fa-github"></i></a>
+                    {% endif %}
+                    {% if landing.spotify|length > 0 %}
+                    <a href="https://open.spotify.com/user/{{ landing.spotify }}" class="hover:text-[#05056B] dark:hover:text-slate-400"><i class="fab fa-spotify"></i></a>
+                    {% endif %}
+                    {% if landing.linkedin|length > 0 %}
+                    <a href="https://linkedin.com/in/{{ landing.linkedin }}" class="hover:text-[#05056B] dark:hover:text-slate-400"><i class="fab fa-linkedin"></i></a>
+                    {% endif %}
+                </div>
+            </div>
         </div>
     </div>
-    <div class="let-me-introduce-myself">
-        <div class="lmim-bio">
-            <h1 class="lmim-header">Let's talk:</h1>
-            <div class="lmim-copy">
-                <p>{{ info.bio }}</p>
-            </div>
-        </div>
-        <div class="lmim-these-are-a-few">
-            <h1 class="lmim-header">My favorite things:</h1>
-            <div class="lmim-few-of-list">
-                <div class="lmim-few-of-left">
-                    <div class="lmim-list-item"><img class="icons" src="{% static 'home/assets/python.svg' %}" alt="Python logo"> Python</div>
-                    <div class="lmim-list-item"><img class="icons" src="{% static 'home/assets/csharp.svg' %}" alt="C# logo"> C#</div>
-                    <div class="lmim-list-item"><img class="icons" src="{% static 'home/assets/django.svg' %}" alt="Django logo"> Django</div>
-                    <div class="lmim-list-item"><img class="icons" src="{% static 'home/assets/unity.svg' %}" alt="Unity logo"> Unity</div>
-                </div>
-                <div class="lmim-few-of-right">
-                    <div class="lmim-list-item"><img class="icons" src="{% static 'home/assets/postgresql.svg' %}" alt="PostgreSQL logo"> PostgreSQL</div>
-                    <div class="lmim-list-item"><img class="icons" src="{% static 'home/assets/markdown.svg' %}" alt="Markdown logo"> Markdown</div>
-                    <div class="lmim-list-item"><img class="icons" src="{% static 'home/assets/apple.svg' %}" alt="Apple logo"> Apple</div>
-                    <div class="lmim-list-item"><img class="icons" src="{% static 'home/assets/ubuntu.svg' %}" alt="Ubuntu logo"> Ubuntu</div>
-                </div>
-            </div>
-        </div>
 
-        <div class="lmim-experience">
-            <h1 class="lmim-header">Experience:</h1>
+    <div id="background" class="text-[#05386B] dark:text-slate-50 basis-1/2 mt-8 flex-grow bg-inherit lg:overflow-auto flex flex-col justify-start content-center px-8 space-y-10">
+        <div id="bio">
+            <h1 class="text-3xl">About Me:</h1>
+            <p class="text-lg ">{{ landing.bio }}</p>
+        </div>
+        
+        <div id="favorite-things">
+            <h1 class="text-3xl mb-4">My Favorite Things:</h1>
+            <div class="grid md:grid-cols-3 lg:grid-cols-2 grid-cols-2 gap-y-2">
+                {% for thing in landing.favorite_things.all %}
+                    <div id="thing-{{ thing.thing_name }}" class="flex flex-row items-center content-center flex-shrink space-x-3">
+                        <svg viewBox="{{ thing.viewbox_attribute}}" class="w-8 dark:fill-slate-50 fill-[#05386B]">
+                            <path d="{{ thing.path_attribute }}"/>
+                        </svg>
+                        <h2 class="text-xl">{{thing.thing_name}}</h2>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+        <div id="experience" class="flex flex-col space-y-4 ring-teal-500 ring-2 ring-offset-4 rounded-lg p-2">
+            <h1 class="text-3xl">Experience:</h1>
             {% for job in experience %}
-                {% if forloop.counter == 1 %}
-                    <div class="lmim-job-first">
-                        <h2 class="lmim-job-title">{{ job.title }}</h2>
-                        <div class="lmim-job-byline">
-                            <h3 class="lmim-job-company">{{ job.company }}</h3>
-                                {% if job.present == True %}
-                                    <h3 class="lmim-job-timeline">{{ job.start_year }} - Present</h3>
-                                {% else %}
-                                    <h3 class="lmim-job-timeline">{{ job.start_year }} - {{ job.end_year }}</h3>
-                                {% endif %}
-                        </div>
-                        <div class="lmim-job-copy">
-                            <p>{{ job.description }}</p>
-                        </div>
-                    </div>
-                {% else %}
-                    <div class="lmim-job">
-                        <h2 class="lmim-job-title">{{ job.title }}</h2>
-                        <div class="lmim-job-byline">
-                            <h3 class="lmim-job-company">{{ job.company }}</h3>
-                                {% if job.present == True %}
-                                    <h3 class="lmim-job-timeline">{{ job.start_year }} - Present</h3>
-                                {% else %}
-                                    <h3 class="lmim-job-timeline">{{ job.start_year }} - {{ job.end_year }}</h3>
-                                {% endif %}
-                        </div>
-                        <div class="lmim-job-copy">
-                            <p>{{ job.description }}</p>
-                        </div>
-                    </div>
-                {% endif %}
+            {% with job_id=job.pk %}
+            <div id="job-{{job.pk}}" class="flex flex-col">
+                <h1 class="text-2xl">{{job.title}}</h1>
+                <div class="flex flex-row justify-between">
+                    <h2 class="text-teal-500 text-lg font-black">{{ job.company }}</h2>
+                    <h2 class=" text-lg font-black">{{ timeline|return_item:job_id }}</h2>
+                </div>
+                <p class=" text-lg">{{ job.description }}</p>
+            </div>
+
+            {% endwith %}
             {% endfor %}
         </div>
-    </div> {% endcomment %}
+        
+        {% include "_footer.html" %}
+    </div>
+</div>
 
-<h1>Landing</h1>
-<ul>
-{% for key, value in landing.items %}
-    <li>{{key}} : {{value}}</li>
-{% endfor %}
-</ul>
 
-<h1>Experience</h1>
-<ul>
-    {% for key, value in experience.items %}
-    <li>{{key}} : {{value}}</li>
-{% endfor %}
-</ul>
 
-<h1>Meta</h1>
-<ul>
-    {% for key, value in meta.items %}
-    <li>{{key}} : {{value}}</li>
-{% endfor %}
-</ul>
 
 {% endblock content %} 
 
