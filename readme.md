@@ -9,11 +9,11 @@ Built using Django, styled with Tailwind, contained in docker, proxied by nginx,
 A running list of tasks, both short term and long term.
 
 ### Short Term:
-- [ ] Rebuild Landing Page with Tailwind
-    - [ ] Create Wrightsville Outline
-    - [ ] Make outline selectable
+- [x] Rebuild Landing Page with Tailwind
+    - [x] Create Wrightsville Outline
+    - [x] Make outline selectable
     - [x] Make SVGs dynamic
-    - [ ] Add Dark Mode Support for SethHome and SethHomeOldSchool
+    - [x] Add Dark Mode Support for SethHome and SethHomeOldSchool
 - [ ] Migrate blog from sethangell.com to here
 - [x] Create a footer
 - [ ] Create a login/signup flow

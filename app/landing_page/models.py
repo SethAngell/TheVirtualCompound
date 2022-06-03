@@ -34,6 +34,10 @@ class Design(models.Model):
 
 class Map(models.Model):
     location_name = models.CharField(max_length=150)
+    overlay_name = models.CharField(max_length=150)
+
+    def __str__(self):
+        return self.location_name
 
 
 # TODO: Add a better way to extract values from SVG for more dynamic use
@@ -90,6 +94,9 @@ class LandingPage(models.Model):
     linkedin = models.CharField(max_length=100, null=True, blank=True)
     resume = models.FileField(null=True, blank=True)
     favorite_things = models.ManyToManyField(FavoriteThing, blank=True)
+    map_overlay = models.ForeignKey(
+        Map, on_delete=models.DO_NOTHING, null=True, blank=True
+    )
     template = models.ForeignKey(
         Design, on_delete=models.DO_NOTHING, blank=True, null=True
     )

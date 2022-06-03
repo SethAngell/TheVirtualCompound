@@ -2,7 +2,7 @@ from re import A
 
 from django.contrib import admin
 
-from .models import Design, Experience, FavoriteThing, LandingPage
+from .models import Design, Experience, FavoriteThing, LandingPage, Map
 
 
 # Register your models here.
@@ -15,6 +15,10 @@ class ExperienceAdmin(admin.ModelAdmin):
 
 
 class DesignAdmin(admin.ModelAdmin):
+    pass
+
+
+class MapAdmin(admin.ModelAdmin):
     pass
 
 
@@ -32,4 +36,5 @@ class FavoriteThingAdmin(admin.ModelAdmin):
 admin.site.register(LandingPage, LandingPageAdmin)
 admin.site.register(Experience, ExperienceAdmin)
 admin.site.register(Design, DesignAdmin)
+admin.site.register(Map, MapAdmin)
 admin.site.register(FavoriteThing, FavoriteThingAdmin)
