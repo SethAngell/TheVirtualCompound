@@ -121,12 +121,7 @@ class BlogPost(models.Model):
     header_image = models.ForeignKey(
         PostImage, on_delete=models.DO_NOTHING, blank=True, null=True
     )
-    parent_blog = models.ForeignKey(
-        Blog,
-        on_delete=models.CASCADE,
-        blank=False,
-        default=Blog.objects.get(blog_name="DoubleL Press").id,
-    )
+    parent_blog = models.ForeignKey(Blog, on_delete=models.CASCADE, blank=False)
 
     image_encoding = models.CharField(max_length=25, blank=True)
     open_graph_protocol_description = models.CharField(max_length=500, blank=True)
