@@ -39,9 +39,11 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     # Third Party Apps
+    "storages",  # Static File Storage with django-storage
     # Our Apps
     "accounts",
     "landing_page",
+    "blog",
 ]
 
 MIDDLEWARE = [
@@ -138,7 +140,26 @@ AUTH_USER_MODEL = "accounts.CustomUser"
 # =======================================
 # = = = Static and Media Management = = =
 if bool(int(os.environ.get("USE_S3", 0))):
-    raise NotImplementedError
+    # Minio Specific
+    AWS_ACCESS_KEY_ID = os.environ.get("S3_KEY")
+    AWS_SECRET_ACCESS_KEY = os.environ.get("S3_SECRET_KEY")
+    AWS_STORAGE_BUCKET_NAME = "cdn.doublel.studio"
+    AWS_S3_ENDPOINT_URL = "https://cdn.doublel.studio/"
+
+    # Static Config
+    STATIC_LOCATION = "static"
+    STATICFILES_STORAGE = "homepage.storage_backends.StaticStorage"
+    STATIC_URL = f"{AWS_S3_ENDPOINT_URL}{STATIC_LOCATION}/"
+
+    # Media Config
+    PUBLIC_MEDIA_LOCATION = "media"
+    MEDIA_URL = f"{AWS_S3_ENDPOINT_URL}{PUBLIC_MEDIA_LOCATION}/"
+    DEFAULT_FILE_STORAGE = "homepage.storage_backends.PublicMediaStorage"
+
+    # Remove query string from the url
+    AWS_QUERYSTRING_AUTH = False
+
+
 else:
     STATIC_URL = "static/"
     STATIC_ROOT = os.path.join("static")
