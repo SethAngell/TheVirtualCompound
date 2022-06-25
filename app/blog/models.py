@@ -15,9 +15,22 @@ from django.template.defaultfilters import slugify
 from django.urls import reverse
 from PIL import Image, UnidentifiedImageError
 
-# globals
 
-# Create your models here.
+class Blog(models.Model):
+    blog_name = models.CharField(max_length=256)
+    blog_description = models.CharField(max_length=512, blank=True, null=False)
+    blog_owner = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.blog_name
+
+    def save(self, *args, **kwargs):
+        if len(self.blog_description) == 0:
+            self.blog_description = f"{self.blog_owner}'s Blog"
+
+        super().save(*args, **kwargs)
+
+
 class TopicTags(models.Model):
     tag_name = models.CharField(max_length=50)
 
@@ -93,6 +106,7 @@ class PostImage(models.Model):
 
 
 class BlogPost(models.Model):
+
     title = models.CharField(max_length=256, blank=True)
     markdown_body = models.TextField()
     html_body = models.TextField(blank=True)
@@ -107,7 +121,12 @@ class BlogPost(models.Model):
     header_image = models.ForeignKey(
         PostImage, on_delete=models.DO_NOTHING, blank=True, null=True
     )
-    author = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    parent_blog = models.ForeignKey(
+        Blog,
+        on_delete=models.CASCADE,
+        blank=False,
+        default=Blog.objects.get(blog_name="DoubleL Press").id,
+    )
 
     image_encoding = models.CharField(max_length=25, blank=True)
     open_graph_protocol_description = models.CharField(max_length=500, blank=True)

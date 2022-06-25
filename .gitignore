@@ -314,4 +314,6 @@ app/static
 app/homepage_prod
 app/postgres
 
+.vscode
+
 

@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import BlogPost, PostImage, TopicTags
+from .models import Blog, BlogPost, PostImage, TopicTags
 
 
 # Register your models here.
@@ -16,6 +16,11 @@ class TopicTagAdmin(admin.ModelAdmin):
     pass
 
 
+class BlogAdmin(admin.ModelAdmin):
+    pass
+
+
 admin.site.register(PostImage, PostImageAdmin)
 admin.site.register(BlogPost, BlogPostAdmin)
 admin.site.register(TopicTags, TopicTagAdmin)
+admin.site.register(Blog, BlogAdmin)

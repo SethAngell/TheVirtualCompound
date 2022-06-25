@@ -8,7 +8,7 @@ from .models import BlogPost
 def blog_detail(request, slug):
     user = request.site.user
 
-    blog_post = BlogPost.objects.get(slug=slug, author=user)
+    blog_post = BlogPost.objects.get(slug=slug, parent_blog__blog_owner=user)
 
     context = {"meta": {"url": request.site.name, "name": str(user)}, "post": blog_post}
 
@@ -18,9 +18,9 @@ def blog_detail(request, slug):
 def blog_index(request):
     user = request.site.user
 
-    blogs = BlogPost.objects.filter(visibility="PU", author=user).order_by(
-        "-created_date"
-    )
+    blogs = BlogPost.objects.filter(
+        visibility="PU", parent_blog__blog_owner=user
+    ).order_by("-created_date")
 
     context = {"meta": {"url": request.site.name, "name": str(user)}, "posts": blogs}
 
@@ -30,7 +30,7 @@ def blog_index(request):
 def FilterBlogsByTags(request, tag):
     user = request.site.user
 
-    blogs = BlogPost.objects.filter(tags__tag_name=tag, author=user)
+    blogs = BlogPost.objects.filter(tags__tag_name=tag, parent_blog__blog_owner=user)
 
     context = {
         "tag_name": tag,
