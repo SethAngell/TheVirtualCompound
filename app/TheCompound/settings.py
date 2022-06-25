@@ -148,13 +148,13 @@ if bool(int(os.environ.get("USE_S3", 0))):
 
     # Static Config
     STATIC_LOCATION = "static"
-    STATICFILES_STORAGE = "homepage.storage_backends.StaticStorage"
+    STATICFILES_STORAGE = "TheCompound.storage_backends.StaticStorage"
     STATIC_URL = f"{AWS_S3_ENDPOINT_URL}{STATIC_LOCATION}/"
 
     # Media Config
     PUBLIC_MEDIA_LOCATION = "media"
     MEDIA_URL = f"{AWS_S3_ENDPOINT_URL}{PUBLIC_MEDIA_LOCATION}/"
-    DEFAULT_FILE_STORAGE = "homepage.storage_backends.PublicMediaStorage"
+    DEFAULT_FILE_STORAGE = "TheCompound.storage_backends.PublicMediaStorage"
 
     # Remove query string from the url
     AWS_QUERYSTRING_AUTH = False
