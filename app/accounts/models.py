@@ -22,7 +22,7 @@ class CustomUser(AbstractUser):
 
 class Domain(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    name = models.URLField()
+    name = models.CharField(max_length=128)
 
     def __str__(self):
         return self.name
