@@ -18,6 +18,7 @@ A running list of tasks, both short term and long term.
 - [x] Tie in Linode S3 for object storage
 - [x] Create a footer
 - [ ] Create a login/signup flow
+- [ ] Compile Tailwindcss properly to move away from the dev cdn
 
 ### Long Term:
 - [ ] Add a _links_ section to the Landing Page to link things dynamically
@@ -26,3 +27,4 @@ A running list of tasks, both short term and long term.
 - [ ] A what-are-all-of-those-files.md documents which details the different files and things in my repo. Something I wish I could have seen when I started and was inundated with dot-files (files that start with a '.')
 - [ ] RSS Support for blogs
 - [ ] _Templatize_ `blog` in a similar fashion to `landing_page`
+- [ ] Configure Github Actions
