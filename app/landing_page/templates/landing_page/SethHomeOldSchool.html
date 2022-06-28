@@ -79,7 +79,7 @@
             <div class="grid md:grid-cols-3 lg:grid-cols-2 grid-cols-2 gap-y-2">
                 {% for thing in landing.favorite_things.all %}
                     <div id="thing-{{ thing.thing_name }}" class="flex flex-row items-center content-center flex-shrink space-x-3">
-                        <svg viewBox="{{ thing.viewbox_attribute}}" class="w-8 dark:fill-slate-50 fill-[#05386B]">
+                        <svg title="{{thing.thing_name}} Logo" viewBox="{{ thing.viewbox_attribute}}" class="w-8 dark:fill-slate-50 fill-[#05386B]">
                             <path d="{{ thing.path_attribute }}"/>
                         </svg>
                         <h2 class="text-xl">{{thing.thing_name}}</h2>
