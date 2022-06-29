@@ -30,47 +30,47 @@
     <div id="intro" class=" basis-1/2 bg-inherit flex flex-col justify-center content-center">
         {% if landing.map_overlay.overlay_name|length > 0 %}
         {% with light_overlay='landing_page/assets/'|add:landing.map_overlay.overlay_name|add:'.svg' dark_overlay='landing_page/assets/'|add:landing.map_overlay.overlay_name|add:'_dark.svg' %}
-        <div class="mx-0 lg:mx-4 xl:mx-20 2xl:mx-40 h-full lg:h-min flex flex-col dark:bg-slate-900 bg-teal-400 text-[#05386B] dark:text-slate-50 bg-[url('{% static light_overlay %}')] dark:bg-[url('{% static dark_overlay %}')] bg-right bg-cover bg-no-repeat justify-center content-center items-center p-8 pb-4 lg:rounded-2xl shadow-2xl">
+        <div class="mx-0 lg:mx-4 xl:mx-20 2xl:mx-40 h-full lg:h-min flex flex-col dark:bg-slate-900 bg-teal-400 text-seth-blue-400 dark:text-slate-50 bg-[url('{% static light_overlay %}')] dark:bg-[url('{% static dark_overlay %}')] bg-right bg-cover bg-no-repeat justify-center content-center items-center p-8 pb-4 lg:rounded-2xl shadow-2xl">
         {% endwith %}
         {% else %}
-        <div class="mx-0 lg:mx-4 xl:mx-20 2xl:mx-40 h-full lg:h-min flex flex-col bg-teal-400 text-[#05386B] dark:text-slate-50 dark:bg-slate-800 bg-right bg-cover bg-no-repeat justify-center content-center items-center p-8 pb-4 lg:rounded-2xl shadow-2xl">
+        <div class="mx-0 lg:mx-4 xl:mx-20 2xl:mx-40 h-full lg:h-min flex flex-col bg-teal-400 text-seth-blue-400 dark:text-slate-50 dark:bg-slate-800 bg-right bg-cover bg-no-repeat justify-center content-center items-center p-8 pb-4 lg:rounded-2xl shadow-2xl">
         {% endif %}
             <img class="rounded-full w-44 lg:w-64 shadow-2xl" src="{{ landing.avatar.url }}" alt="A headshot profile picture of {{landing.name}}">
             <h1 class="mx-auto w-4/5 lg:w-11/12 px-4 pt-8 text-center font-black  md:text-3xl text-2xl">{{landing.headline}}</h1>
 
-            <a href="mailto:{{ landing.contact_email }}" class=".content-body border-2 border-[#05386B] bg-transparent hover:bg-[#05386B] hover:text-slate-50 dark:border-slate-50 dark:text-slate-50 dark:hover:bg-teal-500 dark:hover:border-teal-500 px-5 py-2 my-6 text-lg leading-5 rounded-md font-semibold ">
+            <a href="mailto:{{ landing.contact_email }}" class=".content-body border-2 border-seth-blue-400 bg-transparent hover:bg-seth-blue-400 hover:text-slate-50 dark:border-slate-50 dark:text-slate-50 dark:hover:bg-teal-500 dark:hover:border-teal-500 px-5 py-2 my-6 text-lg leading-5 rounded-md font-semibold ">
                 Say Hi 
             </a>
             <div class="flex flex-row justify-between w-full">
                 <div class="flex flex-row space-x-2">
-                    <a href="/blog" class=".content-body] hover:text-[#05056B] dark:hover:text-slate-400 text-lg">BLOG</a>
+                    <a href="/blog" class=".content-body] hover:text-seth-blue-600 dark:hover:text-slate-400 text-lg">BLOG</a>
                     {% if landing.resume.url|length > 0 %}
                     <p class="text-lg font-black .content-body">•</p>
-                    <a href="{{ landing.resume.url }}" class=".content-body hover:text-[#05056B]  dark:hover:text-slate-400 text-lg">RESUME</a>
+                    <a href="{{ landing.resume.url }}" class=".content-body hover:text-seth-blue-600  dark:hover:text-slate-400 text-lg">RESUME</a>
                     {% endif %}
                 </div>
                 <div class="flex flex-row text-2xl space-x-3">
                     {% if landing.instagram|length > 0 %}
-                    <a href="https://instagram.com/{{ landing.instagram }}" class="hover:text-[#05056B] dark:hover:text-slate-400" aria-label="An Instagram logo linking to the {{landing.name}}'s accounts"><i class="fab fa-instagram"></i></a>
+                    <a href="https://instagram.com/{{ landing.instagram }}" class="hover:text-seth-blue-600 dark:hover:text-slate-400" aria-label="An Instagram logo linking to the {{landing.name}}'s accounts"><i class="fab fa-instagram"></i></a>
                     {% endif %}
                     {% if landing.twitter|length > 0 %}
-                    <a href="https://twitter.com/{{ landing.twitter }}" class="hover:text-[#05056B] dark:hover:text-slate-400" aria-label="A Twitter logo linking to the {{landing.name}}'s accounts"><i class="fab fa-twitter"></i></a>
+                    <a href="https://twitter.com/{{ landing.twitter }}" class="hover:text-seth-blue-600 dark:hover:text-slate-400" aria-label="A Twitter logo linking to the {{landing.name}}'s accounts"><i class="fab fa-twitter"></i></a>
                     {% endif %}
                     {% if landing.github|length > 0 %}
-                    <a href="https://github.com/{{ landing.github }}" class="hover:text-[#05056B] dark:hover:text-slate-400" aria-label="A Github logo linking to the {{landing.name}}'s accounts"><i class="fab fa-github"></i></a>
+                    <a href="https://github.com/{{ landing.github }}" class="hover:text-seth-blue-600 dark:hover:text-slate-400" aria-label="A Github logo linking to the {{landing.name}}'s accounts"><i class="fab fa-github"></i></a>
                     {% endif %}
                     {% if landing.spotify|length > 0 %}
-                    <a href="https://open.spotify.com/user/{{ landing.spotify }}" class="hover:text-[#05056B] dark:hover:text-slate-400" aria-label="A Spotify logo linking to the {{landing.name}}'s accounts"><i class="fab fa-spotify"></i></a>
+                    <a href="https://open.spotify.com/user/{{ landing.spotify }}" class="hover:text-seth-blue-600 dark:hover:text-slate-400" aria-label="A Spotify logo linking to the {{landing.name}}'s accounts"><i class="fab fa-spotify"></i></a>
                     {% endif %}
                     {% if landing.linkedin|length > 0 %}
-                    <a href="https://linkedin.com/in/{{ landing.linkedin }}" class="hover:text-[#05056B] dark:hover:text-slate-400" aria-label="A Linkedin logo linking to the {{landing.name}}'s accounts"><i class="fab fa-linkedin"></i></a>
+                    <a href="https://linkedin.com/in/{{ landing.linkedin }}" class="hover:text-seth-blue-600 dark:hover:text-slate-400" aria-label="A Linkedin logo linking to the {{landing.name}}'s accounts"><i class="fab fa-linkedin"></i></a>
                     {% endif %}
                 </div>
             </div>
         </div>
     </div>
 
-    <div id="background" class="text-[#05386B] dark:text-slate-50 basis-1/2 mt-8 flex-grow bg-inherit lg:overflow-auto flex flex-col justify-start content-center px-8 space-y-10">
+    <div id="background" class="text-seth-blue-400 dark:text-slate-50 basis-1/2 mt-8 flex-grow bg-inherit lg:overflow-auto flex flex-col justify-start content-center px-8 space-y-10">
         <div id="bio">
             <h1 class="text-3xl">About Me:</h1>
             <p class="text-lg ">{{ landing.bio }}</p>
@@ -81,7 +81,7 @@
             <div class="grid md:grid-cols-3 lg:grid-cols-2 grid-cols-2 gap-y-2">
                 {% for thing in landing.favorite_things.all %}
                     <div id="thing-{{ thing.thing_name }}" class="flex flex-row items-center content-center flex-shrink space-x-3">
-                        <svg title="{{thing.thing_name}} Logo" viewBox="{{ thing.viewbox_attribute}}" class="w-8 dark:fill-slate-50 fill-[#05386B]">
+                        <svg title="{{thing.thing_name}} Logo" viewBox="{{ thing.viewbox_attribute}}" class="w-8 dark:fill-slate-50 fill-seth-blue-400">
                             <path d="{{ thing.path_attribute }}"/>
                         </svg>
                         <h2 class="text-xl">{{thing.thing_name}}</h2>
