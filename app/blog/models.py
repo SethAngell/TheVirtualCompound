@@ -207,7 +207,7 @@ class BlogPost(models.Model):
         )
         self.image_encoding = self.determine_image_encoding()
         self.html_body = markdown.markdown(
-            body,
+            self.markdown_body,
             extensions=[
                 "markdown.extensions.fenced_code",
                 "markdown.extensions.footnotes",
