@@ -213,7 +213,7 @@ class BlogPost(models.Model):
                 "markdown.extensions.footnotes",
             ],
         )
-        self.classify_components()
+        # self.classify_components()
 
         if not self.slug:
             self.slug = slugify(self.title)

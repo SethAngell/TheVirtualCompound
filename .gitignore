@@ -317,4 +317,6 @@ app/postgres
 
 app/jstoolchain/node_modules/
 
+app/static
+
 

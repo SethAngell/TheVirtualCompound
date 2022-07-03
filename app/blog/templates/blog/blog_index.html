@@ -7,6 +7,9 @@
     <meta property="og:url" content="{{ meta.url }}/blog/" />
     <meta property="og:site_name" content="{{ meta.url }}" /> 
 {% endblock meta %}
+{% block links %}
+ <link rel="stylesheet" href="{% static "css/tailwind-output.css" %}">
+{% endblock %}
 {% block title %}blog{% endblock title %}
 {% block content %}
     <div class="w-9/10 lg:w-3/5 flex flex-col mx-auto mt-5">
