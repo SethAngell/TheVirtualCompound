@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     
     <style>
     {% block style %}
@@ -13,6 +13,8 @@
         }
     {% endblock %}
     </style>
+    {% block links %}
+    {% endblock %}
 
     {% block meta %}
     {% endblock %}
@@ -22,7 +24,7 @@
     {% block font %}
     <link defer href="https://fonts.googleapis.com/css2?family=Red+Hat+Mono:wght@400;700&display=swap" rel="stylesheet">
     {% endblock %}
-    <script src="https://cdn.tailwindcss.com"></script>
+    {% comment %} <script src="https://cdn.tailwindcss.com"></script> {% endcomment %}
     
 
     <!--TODO: Figure out where to source a full name efficiently-->

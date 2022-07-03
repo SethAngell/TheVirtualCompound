@@ -207,13 +207,13 @@ class BlogPost(models.Model):
         )
         self.image_encoding = self.determine_image_encoding()
         self.html_body = markdown.markdown(
-            body,
+            self.markdown_body,
             extensions=[
                 "markdown.extensions.fenced_code",
                 "markdown.extensions.footnotes",
             ],
         )
-        self.classify_components()
+        # self.classify_components()
 
         if not self.slug:
             self.slug = slugify(self.title)
