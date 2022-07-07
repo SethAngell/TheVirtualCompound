@@ -30,7 +30,7 @@ ENV S3_SECRET_KEY: ${S3_SECRET_KEY}
 ENV DJANGO_SECRET_KEY: ${DJANGO_SECRET_KEY}
 
 RUN apt-get update \
-  && apt-get -y install gcc postgresql libpq-dev vim gunicorn3 \
+  && apt-get -y install gcc postgresql libpq-dev vim gunicorn3 curl \
   && apt-get clean
 
 # Handle all necessary dependencies
@@ -43,7 +43,8 @@ COPY . .
 
 # Compile TailwindCSS Files
 WORKDIR /usr/src/app/jstoolchain
-RUN apt-get -y install nodejs npm
+RUN curl -fsSL https://deb.nodesource.com/setup_16.x | bash -
+RUN apt-get install -y nodejs
 RUN npm install
 RUN npm run build
 RUN rm -rf node_modules
