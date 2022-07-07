@@ -31,7 +31,7 @@ jobs:
           context: ./app
           file: ./Dockerfile.prod
           push: true
-          tags: ghcr.io/sethangell/OYS:latest
+          tags: ghcr.io/sethangell/oys:latest
           build-args: |
             "S3_KEY=${{ secrets.S3_KEY }}"
             "S3_SECRET_KEY=${{ secrets.S3_SECRET_KEY }}"
