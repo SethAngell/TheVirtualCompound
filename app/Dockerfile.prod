@@ -1,4 +1,3 @@
-LABEL description="A ready to use image containing The Virtual Compound service"
 ###### BUILDING PHASE
 # Install and Configure Application
 FROM python:3.9.5-slim-buster AS Build
@@ -53,6 +52,8 @@ RUN rm -rf node_modules
 ###### DEPLOYMENT PHASE
 # Generate Container For Registry
 FROM python:3.9.5-slim-buster AS Deploy
+LABEL description="A ready to use image containing The Virtual Compound service"
+
 
 WORKDIR /usr/src/app
 
