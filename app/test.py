@@ -9,7 +9,8 @@ linode_obj_config = {
     "endpoint_url": "https://cdn.doublel.studio/",
 }
 
-print(linode_obj_config)
+for key in linode_obj_config.keys():
+    print(f"{key} : {linode_obj_config[key][:-1]} {linode_obj_config[key][-1]}")
 
 client = boto3.client("s3", **linode_obj_config)
 
