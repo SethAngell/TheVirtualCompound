@@ -49,15 +49,6 @@ RUN npm install
 RUN npm run build
 RUN rm -rf node_modules
 
-WORKDIR /usr/src/app
-
-RUN python test.py
-
-# Collect Static and Prep new migrations
-RUN python manage.py collectstatic --no-input
-RUN python manage.py makemigrations
-
-
 ###### DEPLOYMENT PHASE
 # Generate Container For Registry
 FROM python:3.9.5-slim-buster AS Deploy
