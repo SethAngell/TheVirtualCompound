@@ -31,11 +31,7 @@ jobs:
           context: ./app
           file: ./app/Dockerfile.prod
           push: true
-          tags: ghcr.io/sethangell/oys:latest
-          build-args: |
-            "S3_KEY=${{ secrets.S3_KEY }}"
-            "S3_SECRET_KEY=${{ secrets.S3_SECRET_KEY }}"
-            "DJANGO_SECRET_KEY=${{ secrets.DJANGO_SECRET_KEY }}"
+          tags: ghcr.io/sethangell/thevirtualcompound:latest
 
 
 
