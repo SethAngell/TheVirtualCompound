@@ -1,3 +1,4 @@
+LABEL description="A ready to use image containing The Virtual Compound service"
 ###### BUILDING PHASE
 # Install and Configure Application
 FROM python:3.9.5-slim-buster AS Build

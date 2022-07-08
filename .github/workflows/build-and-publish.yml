@@ -31,7 +31,7 @@ jobs:
           context: ./app
           file: ./app/Dockerfile.prod
           push: true
-          tags: ghcr.io/sethangell/thevirtualcompound:latest
+          tags: ghcr.io/sethangell/oys:latest
 
 
 
