@@ -18,7 +18,7 @@ A running list of tasks, both short term and long term.
 - [x] Tie in Linode S3 for object storage
 - [x] Create a footer
 - [ ] Create a login/signup flow
-- [ ] Compile Tailwindcss properly to move away from the dev cdn
+- [x] Compile Tailwindcss properly to move away from the dev cdn
 
 ### Long Term:
 - [ ] Add a _links_ section to the Landing Page to link things dynamically
