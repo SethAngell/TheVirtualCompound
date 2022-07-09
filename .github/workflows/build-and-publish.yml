@@ -1,4 +1,4 @@
-name: Build and Publish
+name: Automated Site Deployment
 
 on:
   pull_request:
@@ -38,12 +38,84 @@ jobs:
             ghcr.io/sethangell/oys:latest
             ghcr.io/sethangell/oys:${{ secrets.MAJOR_VERSION }}.${{ secrets.MINOR_VERSION }}
       
+      - name: Autoincrement a new patch version
+        run: |
+          echo "MINOR_VERSION=$((${{ secrets.MINOR_VERSION }}+1))" >> $GITHUB_ENV
+      
       - name: Increment minor version value
         uses: hmanzur/actions-set-secret@v2.0.0
         with:
           name: 'MINOR_VERSION'
-          value: $((${{ secrets.MINOR_VERSION }}+1))
+          value: ${{ env.MINOR_VERSION }}
           token: ${{ secrets.REPO_ACCESS_TOKEN }}
+  
+  shut-down-current-version:
+    runs-on: ubuntu-latest
+    needs: build-and-push-docker-image
+    steps:
+    - name: Retrieving up to date docker-compose.yaml
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.SSH_HOST }}
+        username: ${{ secrets.SSH_USER }}
+        password: ${{ secrets.SSH_PASSWORD }}
+        port: ${{ secrets.SSH_PORT }}
+        script: (cd /home/TheCompound && docker-compose down)
+
+  download-updated-docker-compose:
+    needs: shut-down-current-version
+    runs-on: ubuntu-latest
+    steps:
+    - name: Retrieving up to date docker-compose.yaml
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.SSH_HOST }}
+        username: ${{ secrets.SSH_USER }}
+        password: ${{ secrets.SSH_PASSWORD }}
+        port: ${{ secrets.SSH_PORT }}
+        script: curl -o /home/TheCompound/docker-compose.yml https://raw.githubusercontent.com/SethAngell/TheVirtualCompound/main/.ci/docker-compose.yml
+
+  spin-up-new-version-of-the-compound:
+    needs: [shut-down-current-version, download-updated-docker-compose]
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+    - name: Retrieving up to date docker-compose.yaml
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.SSH_HOST }}
+        username: ${{ secrets.SSH_USER }}
+        password: ${{ secrets.SSH_PASSWORD }}
+        port: ${{ secrets.SSH_PORT }}
+        script: (cd /home/TheCompound && docker-compose up -d)
+  
+  see-if-site-is-back-online:
+    needs: spin-up-new-version-of-the-compound
+    name: healthcheck
+    runs-on: ubuntu-latest
+    steps:
+      - name: Give site some time to collectstatic and deploy
+        run: sleep 60s
+        shell: bash
+      - name: Attempt to connect to personal landing page
+        run: curl --connect-timeout 30 --retry 10 --retry-delay 5 https://sethangell.com
+        shell: bash
+
+  send-notification:
+    runs-on: ubuntu-latest
+    needs: see-if-site-is-back-online
+    if: always()
+    steps:
+      - name: Post Pipeline Status
+        uses: twilio-labs/actions-sms@v1
+        with:
+          fromPhoneNumber: ${{ secrets.FROM_NUMBER }}
+          toPhoneNumber: ${{ secrets.TO_NUMBER }}
+          message: "The Virtual Compound CI pipeline is complete. Status of Deployment is ${{ steps.spin-up-new-version-of-the-compound.conclusion }}. Status of post deployment healthcheck is  ${{ steps.healthcheck.conclusion }}. See https://sethangell.com"
+        env:
+          TWILIO_ACCOUNT_SID: ${{ secrets.TWILIO_ACCOUNT_SID }}
+          TWILIO_API_KEY: ${{ secrets.TWILIO_API_KEY }}
+          TWILIO_API_SECRET: ${{ secrets.TWILIO_API_SECRET }}
 
 
 
