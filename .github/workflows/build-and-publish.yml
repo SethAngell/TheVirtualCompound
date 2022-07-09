@@ -111,7 +111,7 @@ jobs:
         with:
           fromPhoneNumber: ${{ secrets.FROM_NUMBER }}
           toPhoneNumber: ${{ secrets.TO_NUMBER }}
-          message: "The Virtual Compound CI pipeline is complete. Status of Deployment is ${{ steps.spin-up-new-version-of-the-compound.conclusion }}. Status of post deployment healthcheck is  ${{ steps.healthcheck.conclusion }}. See https://sethangell.com"
+          message: ${{ format('The Virtual Compound CI pipeline is complete. Status of Deployment is {0}. Status of post deployment healthcheck is {1}. See https://sethangell.com', steps.spin-up-new-version-of-the-compound.conclusion, steps.healthcheck.conclusion) }}
         env:
           TWILIO_ACCOUNT_SID: ${{ secrets.TWILIO_ACCOUNT_SID }}
           TWILIO_API_KEY: ${{ secrets.TWILIO_API_KEY }}
