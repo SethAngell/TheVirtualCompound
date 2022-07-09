@@ -1,0 +1,72 @@
+name: Notify
+
+# Only trigger, when the build workflow succeeded
+on:
+  workflow_run:
+    workflows: ["Deploy To Production"]
+    types:
+      - completed
+
+jobs:
+  see-if-site-is-back-online:
+  id: healthcheck
+  runs-on: ubuntu-latest
+  steps:
+    - name: Give site some time to collectstatic and deploy
+      run: sleep 60s
+      shell: bash
+    - name: Attempt to connect to personal landing page
+      run: curl --connect-timeout 30 --retry 10 --retry-delay 5 https://sethangell.com
+      shell: bash
+
+  send-notification:
+  runs-on: ubuntu-latest
+  steps:
+    - name: On deployment success and site is online
+      if: (${{ github.event.workflow_run.conclusion == 'success' }} && ${{ steps.healthcheck.conclusion == 'success' }})
+      uses: twilio-labs/actions-sms@v1
+      with:
+        fromPhoneNumber: ${{ secrets.FROM_NUMBER }}
+        toPhoneNumber: ${{ secrets.TO_NUMBER }}
+        message: "The Virtual Compound was deployed and is online. See https://sethangell.com"
+      env:
+        TWILIO_ACCOUNT_SID: ${{ secrets.TWILIO_ACCOUNT_SID }}
+        TWILIO_API_KEY: ${{ secrets.TWILIO_API_KEY }}
+        TWILIO_API_SECRET: ${{ secrets.TWILIO_API_SECRET }}
+    
+    - name: On deployment success and site is offline
+      if: (${{ github.event.workflow_run.conclusion == 'success' }} && ${{ steps.healthcheck.conclusion == 'failure' }})
+      uses: twilio-labs/actions-sms@v1
+      with:
+        fromPhoneNumber: ${{ secrets.FROM_NUMBER }}
+        toPhoneNumber: ${{ secrets.TO_NUMBER }}
+        message: "The Virtual Compound was deployed but does not seem to be online. See https://sethangell.com"
+      env:
+        TWILIO_ACCOUNT_SID: ${{ secrets.TWILIO_ACCOUNT_SID }}
+        TWILIO_API_KEY: ${{ secrets.TWILIO_API_KEY }}
+        TWILIO_API_SECRET: ${{ secrets.TWILIO_API_SECRET }}
+
+    - name: On deployment failure and site is online
+      if: (${{ github.event.workflow_run.conclusion == 'failure' }} && ${{ steps.healthcheck.conclusion == 'success' }})
+      uses: twilio-labs/actions-sms@v1
+      with:
+        fromPhoneNumber: ${{ secrets.FROM_NUMBER }}
+        toPhoneNumber: ${{ secrets.TO_NUMBER }}
+        message: "The Virtual Compound failed to deploy but is still online. See https://sethangell.com"
+      env:
+        TWILIO_ACCOUNT_SID: ${{ secrets.TWILIO_ACCOUNT_SID }}
+        TWILIO_API_KEY: ${{ secrets.TWILIO_API_KEY }}
+        TWILIO_API_SECRET: ${{ secrets.TWILIO_API_SECRET }}
+
+    - name: In the event of a FUBAR state
+      if: (${{ github.event.workflow_run.conclusion == 'failure' }} && ${{ steps.healthcheck.conclusion == 'failure' }})
+      uses: twilio-labs/actions-sms@v1
+      with:
+        fromPhoneNumber: ${{ secrets.FROM_NUMBER }}
+        toPhoneNumber: ${{ secrets.TO_NUMBER }}
+        message: "The Virtual Compound failed to deploy AND your site is offline. You should feel bad. See https://sethangell.com"
+      env:
+        TWILIO_ACCOUNT_SID: ${{ secrets.TWILIO_ACCOUNT_SID }}
+        TWILIO_API_KEY: ${{ secrets.TWILIO_API_KEY }}
+        TWILIO_API_SECRET: ${{ secrets.TWILIO_API_SECRET }}
+    

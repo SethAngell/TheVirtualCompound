@@ -1,0 +1,51 @@
+name: Deploy To Production
+
+# Only trigger, when the build workflow succeeded
+on:
+  workflow_run:
+    workflows: ["Build and Publish"]
+    types:
+      - completed
+
+jobs:
+  shut-down-current-version:
+  runs-on: ubuntu-latest
+  if: ${{ github.event.workflow_run.conclusion == 'success' }}
+  steps:
+  - name: Retrieving up to date docker-compose.yaml
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.SSH_HOST }}
+        username: ${{ secrets.SSH_USER }}
+        password: ${{ secrets.SSH_PASSWORD }}
+        port: ${{ secrets.SSH_PORT }}
+        script: (cd /home/TheCompound && docker-compose down)
+
+  download-updated-docker-compose:
+  needs: shut-down-current-version
+  runs-on: ubuntu-latest
+  steps:
+  - name: Retrieving up to date docker-compose.yaml
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.SSH_HOST }}
+        username: ${{ secrets.SSH_USER }}
+        password: ${{ secrets.SSH_PASSWORD }}
+        port: ${{ secrets.SSH_PORT }}
+        script: curl -o /home/TheCompound/docker-compose.yml https://raw.githubusercontent.com/SethAngell/TheVirtualCompound/main/.ci/docker-compose.yml
+  
+  spin-up-new-version-of-the-compound:
+  needs: [shut-down-current-version, download-updated-docker-compose]
+  if: always()
+  runs-on: ubuntu-latest
+  steps:
+  - name: Retrieving up to date docker-compose.yaml
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.SSH_HOST }}
+        username: ${{ secrets.SSH_USER }}
+        password: ${{ secrets.SSH_PASSWORD }}
+        port: ${{ secrets.SSH_PORT }}
+        script: (cd /home/TheCompound && docker-compose up -d)
+
+

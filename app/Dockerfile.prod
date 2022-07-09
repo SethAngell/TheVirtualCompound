@@ -1,4 +1,6 @@
-FROM python:3.9.5-slim-buster
+###### BUILDING PHASE
+# Install and Configure Application
+FROM python:3.9.5-slim-buster AS Build
 
 # Set working directory for all following in container commands
 WORKDIR /usr/src/app
@@ -10,6 +12,7 @@ ARG DB_HOST
 ARG DB_PORT
 ARG S3_KEY
 ARG S3_SECRET_KEY
+ARG DJANGO_SECRET_KEY
 
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
@@ -24,9 +27,10 @@ ENV DB_HOST: ${DB_HOST}
 ENV DB_PORT: ${DB_PORT}
 ENV S3_KEY: ${S3_KEY}
 ENV S3_SECRET_KEY: ${S3_SECRET_KEY}
+ENV DJANGO_SECRET_KEY: ${DJANGO_SECRET_KEY}
 
 RUN apt-get update \
-  && apt-get -y install gcc postgresql libpq-dev vim gunicorn3 \
+  && apt-get -y install gcc postgresql libpq-dev vim gunicorn3 curl \
   && apt-get clean
 
 # Handle all necessary dependencies
@@ -37,6 +41,40 @@ RUN pip install -r requirements.txt
 # Install App
 COPY . .
 
-RUN chmod +x deploy.sh
+# Compile TailwindCSS Files
+WORKDIR /usr/src/app/jstoolchain
+RUN curl -fsSL https://deb.nodesource.com/setup_16.x | bash -
+RUN apt-get install -y nodejs
+RUN npm install
+RUN npm run build
+RUN rm -rf node_modules
 
-ENTRYPOINT sh deploy.sh
+###### DEPLOYMENT PHASE
+# Generate Container For Registry
+FROM python:3.9.5-slim-buster AS Deploy
+LABEL description="A ready to use image containing The Virtual Compound service"
+
+
+WORKDIR /usr/src/app
+
+ENV PYTHONDONTWRITEBYTECODE 1
+ENV PYTHONUNBUFFERED 1
+ENV DJANGO_DEBUG 0
+ENV ALLOWED_HOSTS sethangell.com test.doublel.studio
+ENV USE_S3 1
+ENV DB_ENGINE django.db.backends.postgresql_psycopg2
+
+RUN apt-get update \
+  && apt-get -y install gcc postgresql libpq-dev vim gunicorn3 \
+  && apt-get clean
+
+# Handle all necessary dependencies
+RUN pip install --upgrade pip
+COPY --from=Build /usr/src/app/requirements.txt .
+RUN pip install -r requirements.txt
+
+COPY --from=Build /usr/src/app .
+
+RUN chmod +x start.sh
+
+ENTRYPOINT sh start.sh

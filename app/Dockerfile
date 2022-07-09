@@ -24,6 +24,4 @@ RUN pip install -r requirements.txt
 # Install App
 COPY . .
 
-# RUN python manage.py makemigrations
-
 ENTRYPOINT (python manage.py runserver 0.0.0.0:8000)
