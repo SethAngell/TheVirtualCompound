@@ -27,4 +27,4 @@ A running list of tasks, both short term and long term.
 - [ ] A what-are-all-of-those-files.md documents which details the different files and things in my repo. Something I wish I could have seen when I started and was inundated with dot-files (files that start with a '.')
 - [ ] RSS Support for blogs
 - [ ] _Templatize_ `blog` in a similar fashion to `landing_page`
-- [ ] Configure Github Actions
+- [x] Configure Github Actions
