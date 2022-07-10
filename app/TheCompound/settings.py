@@ -172,6 +172,13 @@ STATICFILES_DIRS = [
 ]
 
 # ===============================
+# = = = = Email Settings  = = = =
+if DEBUG is True:
+    EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+else:
+    raise NotImplementedError("Prod Email Is Not Yet Available")
+
+# ===============================
 # = = = Deployment Settings = = =
 if DEBUG is False:
     SECURE_CONTENT_TYPE_NOSNIFF = True
