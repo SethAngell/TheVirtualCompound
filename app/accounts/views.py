@@ -19,7 +19,6 @@ def create_new_invite(request):
         # check whether it's valid:
         if form.is_valid():
             # process the data in form.cleaned_data as required
-            print("Hi!")
             new_invite = form.save()
             send_invite_email(new_invite)
             # redirect to a new URL:
@@ -41,37 +40,49 @@ def validate_invited_user(request):
     errors = ""
     if request.method == "POST":
         form = NewUserFromInviteForm(request.POST)
-        print("POST REQUEST")
+
         if form.is_valid():
-            print("VALID FORM")
             user_email = form.cleaned_data["email"]
             invite_code = form.cleaned_data["invite_code"]
 
             try:
                 invitation = Invitation.objects.get(email=user_email)
-                print("VALID EMAIL")
+
             except Invitation.DoesNotExist:
-                print("INVALID EMAIL")
                 invitation = None
 
                 errors = "Invalid Email: No email address found, make sure you use the same email that your invitation was sent to"
                 context = {"form": form, "errors": errors}
                 return render(request, "accounts/accept_invite.html", context)
 
-            if invitation is not None and invite_code != invitation.invitation_code:
-                print("INVALID EMAIL CODE")
+            if invitation is not None and (
+                invite_code != str(invitation.invitation_code)
+            ):
+                print(
+                    f"IN  Code: {invitation.invitation_code} and {len(invitation.invitation_code)}"
+                )
+                print(f"OUT Code: {invite_code} and {len(invite_code)}")
                 errors = "Invalid Invite Code: Make sure you copied that code properly!"
-            elif invitation is not None and invite_code == invitation.invitation_code:
-                print("VALID EMAIL CODE")
-                NewUser = _create_user(request)
-                if NewUser is not None:
-                    invitation.linked_domain.user = NewUser
+            elif invitation is not None and invite_code == str(
+                invitation.invitation_code
+            ):
+
+                user_creation_errors, new_user = _create_user(request)
+                if new_user is not None:
+                    invitation.linked_domain.user = new_user
                     invitation.linked_domain.save()
+
+                    invitation.delete()
+
                 else:
-                    errors = "Invalid User: Failed to create new user. Go bug seth"
+                    if "password2" in user_creation_errors.as_data().keys():
+                        errors = (
+                            "Password: Oof, that password was way to simple. Try again?"
+                        )
+                    else:
+                        errors = "Invalid User: Failed to create new user. Go bug seth"
 
             if len(errors) == 0:
-                print("You got yourself a new user!")
                 redirect("home")
 
         else:
@@ -84,7 +95,7 @@ def validate_invited_user(request):
 
 
 def send_invite_email(new_invitation):
-    print("email sent!")
+
     plaintext = get_template("accounts/emails/plaintext-invite.txt")
     htmly = get_template("accounts/emails/styled-invite.html")
 
@@ -112,9 +123,7 @@ def _create_user(request):
 
         if user is not None:
             login(request, user)
-        else:
-            print("user is not authenticated")
 
-        return user
+        return (None, user)
     else:
-        return None
+        return (NewUserForm.errors, None)
