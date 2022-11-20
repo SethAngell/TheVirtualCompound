@@ -42,7 +42,7 @@ def validate_invited_user(request):
         form = NewUserFromInviteForm(request.POST)
 
         if form.is_valid():
-            user_email = form.cleaned_data["email"]
+            user_email = form.cleaned_data["email"].lower()
             invite_code = form.cleaned_data["invite_code"]
 
             try:

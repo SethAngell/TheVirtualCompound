@@ -38,3 +38,7 @@ class Invitation(models.Model):
     linked_domain = models.ForeignKey(
         Domain, on_delete=models.CASCADE, blank=True, null=True
     )
+
+    def save(self, *args, **kwargs):
+        self.email = self.email.lower()
+        super(Invitation, self).save(*args, **kwargs)
