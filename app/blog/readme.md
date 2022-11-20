@@ -49,5 +49,5 @@ classDiagram
 
     TopicTags "0..*" --> "0..*" BlogPost : describe
     BlogPost "0..*" --> "1" Blog : Belongs to
-    PostImage "1" --> "1" BlogPost
+    PostImage "1" --> "1" BlogPost : advertise
 ```
