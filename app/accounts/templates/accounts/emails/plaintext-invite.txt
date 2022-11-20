@@ -1,0 +1,11 @@
+Hey! Welcome To The Site
+
+Create an account here link-to-web.site
+
+Youre unique signup code is {{ invite.invitation_code }}
+
+Make sure to signup with your emails address: {{ invite.email }}
+
+Your site will be available at https://{{ invite.domain.name }}
+
+Bye Now!

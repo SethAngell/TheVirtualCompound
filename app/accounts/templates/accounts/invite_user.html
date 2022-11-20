@@ -1,0 +1,64 @@
+{% extends "_base.html" %}
+{% load static %}
+{% load timeline_helper %}
+{% block meta %}
+    <meta property="og:title" content="Create a super secret invite" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://doublel.studio/accounts/invite_user" />
+{% endblock meta %}
+
+{% block links %}
+ <link rel="stylesheet" href="{% static "css/tailwind-output.css" %}">
+{% endblock %}
+{% block style %}
+    h1, h2, a {
+        font-family: 'Rubik', sans-serif;
+    }
+
+    p {
+        font-family: 'Karla', sans-serif;
+    }
+    
+{% endblock %}
+{% block font %}
+<link defer href="https://fonts.googleapis.com/css2?family=Fira+Code&family=Karla&family=Rubik:wght@500;700&display=swap" rel="stylesheet">
+<script defer src="https://kit.fontawesome.com/273c56c702.js" crossorigin="anonymous"></script>
+{% endblock %}
+{% block title %}New Invite{% endblock title %}
+{% block content %}
+<div class="w-11/12 lg:w-3/6 h-screen flex flex-col mx-auto mt-5 justify-center items-center">
+    <div id="form-container" class="w-fit rounded-lg h-fit p-10 flex flex-col items-start border-seth-blue-600 border-2">
+        <div class="flex flex-row space-x-1 mb-5 text-slate-900 text-black">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M3 19v-8.93a2 2 0 01.89-1.664l7-4.666a2 2 0 012.22 0l7 4.666A2 2 0 0121 10.07V19M3 19a2 2 0 002 2h14a2 2 0 002-2M3 19l6.75-4.5M21 19l-6.75-4.5M3 10l6.75 4.5M21 10l-6.75 4.5m0 0l-1.14.76a2 2 0 01-2.22 0l-1.14-.76" />
+            </svg>
+            <h4>It's kinda quiet in here. Let's invite some people!</h4>
+        </div>
+        
+        <form action={% url 'new_user_invitation' %} method="post" class="w-full">
+            {% csrf_token %}
+            <div class="flex flex-col justify-center">
+                <label class="block">
+                    <span id="email-label" class="block text-sm font-medium text-slate-700" aria-label-for="email">Email: </span>
+                    <div class="mt-1">
+                        <input type="email" name="email" id="email" class="peer px-3 py-2 bg-white border shadow-sm border-slate-300 placeholder-slate-400  disabled:bg-slate-50 disabled:text-slate-500 disabled:border-slate-200 focus:outline-none focus:border-sky-500 focus:ring-sky-500 block w-full rounded-md sm:text-sm focus:ring-1 invalid:border-pink-500 invalid:text-pink-600 focus:invalid:border-pink-500 focus:invalid:ring-pink-500 disabled:shadow-none" placeholder="you@example.com">
+                        <p class="mt-2 invisible peer-invalid:visible text-pink-600 text-sm">Please provide a valid email address.</p>
+                    </div>
+                </label>
+                <label class="block">
+                    <span class="block text-sm font-medium text-slate-700">Domain: </span>
+                    <select name="linked_domain" class="mt-1 select select-bordered w-full appearance-none px-3 py-2 bg-white border shadow-sm border-slate-300 placeholder-slate-400  disabled:bg-slate-50 disabled:text-slate-500 disabled:border-slate-200 focus:outline-none focus:border-sky-500 focus:ring-sky-500 block w-full rounded-md sm:text-sm focus:ring-1 invalid:border-pink-500 invalid:text-pink-600 focus:invalid:border-pink-500 focus:invalid:ring-pink-500 disabled:shadow-none">
+                        <option disabled selected>example@example.com</option>
+                        {% for domain in domains %}
+                        <option value="{{domain.id}}">{{domain.name}}</option>
+                        {% endfor %}
+                    </select>
+                </label>
+                
+                <input class="mt-8 w-min bg-slate-500 hover:bg-slate-600 focus:outline-none focus:ring focus:ring-pink-300 active:bg-slate-700 px-5 py-2 text-sm leading-5 rounded-full font-semibold text-slate-50" type="submit" value="Send Invite">
+            </div>
+        </form>
+    </div>
+</div>
+
+{% endblock content %}
