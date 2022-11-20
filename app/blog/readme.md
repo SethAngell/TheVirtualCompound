@@ -16,7 +16,7 @@ classDiagram
         +string tag_name
     }
 
-    class PostImage {
+    class DEPRECATED--PostImage {
         +string reference
         +string alt_text
         +image image
@@ -24,6 +24,13 @@ classDiagram
 
         -make_thumbnail()
         -generate_png_version(p_image, p_name)
+    }
+
+    class SocialImage {
+        +image social_image
+        +pk[fk[BlogPost]] parent_post
+
+        -_generate_hero_image()
     }
 
     class BlogPost {
@@ -35,9 +42,8 @@ classDiagram
         +datetime created_date
         +datetime updated
         +string visibility
-        +fk[PostImage] header_image
+        +fk[SocialImage] social_image
         +fk[Blog] parent_blog
-        +string image_encoding
         +string open_graph_protocol_description
 
         -pretty_preview()
@@ -49,5 +55,5 @@ classDiagram
 
     TopicTags "0..*" --> "0..*" BlogPost : describe
     BlogPost "0..*" --> "1" Blog : Belongs to
-    PostImage "1" --> "1" BlogPost : advertise
+    SocialImage "1" --> "1" BlogPost : advertise
 ```

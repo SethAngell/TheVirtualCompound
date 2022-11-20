@@ -11,6 +11,8 @@ from django.core.files import File
 from django.core.files.base import ContentFile
 from django.core.files.storage import default_storage as storage
 from django.db import models
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 from django.template.defaultfilters import slugify
 from django.urls import reverse
 from PIL import Image, UnidentifiedImageError
@@ -118,12 +120,8 @@ class BlogPost(models.Model):
     visibility = models.CharField(
         max_length=2, choices=[("PU", "Public"), ("PR", "Private")]
     )
-    header_image = models.ForeignKey(
-        PostImage, on_delete=models.DO_NOTHING, blank=True, null=True
-    )
     parent_blog = models.ForeignKey(Blog, on_delete=models.CASCADE, blank=False)
 
-    image_encoding = models.CharField(max_length=25, blank=True)
     open_graph_protocol_description = models.CharField(max_length=500, blank=True)
 
     def __str__(self):
@@ -218,3 +216,27 @@ class BlogPost(models.Model):
         if not self.slug:
             self.slug = slugify(self.title)
         return super().save(*args, **kwargs)
+
+
+class SocialImage(models.Model):
+    ENCODING_TYPE = "png"
+
+    post = models.ForeignKey(BlogPost, on_delete=models.CASCADE, primary_key=True)
+    image = models.ImageField(
+        blank=True, null=False, upload_to="blog_images/social_images"
+    )
+
+    def _generate_hero_image():
+        # do stuff
+        return None
+
+    def save(self, *args, **kwargs):
+        self.image = self._generate_hero_image()
+
+        return super().save(*args, **kwargs)
+
+
+@receiver(post_save, sender=BlogPost)
+def my_handler(sender, **kwargs):
+    new_social_image = SocialImage(post=sender)
+    new_social_image.save()
