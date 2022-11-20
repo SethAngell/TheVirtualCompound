@@ -108,12 +108,14 @@ class LandingPage(models.Model):
 class Experience(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     exp_id = models.AutoField(primary_key=True)
-    company = models.CharField(max_length=40)
+    company = models.CharField(max_length=40)  # TODO: Migrate To Something more generic
     title = models.CharField(max_length=65)
     description = models.TextField(blank=True, null=True)
     present = models.BooleanField()
     start_year = models.IntegerField()
     end_year = models.IntegerField(blank=True, null=True)
+    link = models.URLField(blank=True, null=True)
+    link_title = models.URLField(blank=True, null=True)
 
     def __str__(self):
-        return self.company
+        return f"{self.user} - {self.company}"

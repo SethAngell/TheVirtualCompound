@@ -5,6 +5,7 @@ from .models import BlogPost
 
 
 # Create your views here.
+# TODO: Grab SocialImage here
 def blog_detail(request, slug):
     user = request.site.user
 
