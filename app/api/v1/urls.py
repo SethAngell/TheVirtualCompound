@@ -1,7 +1,9 @@
 from django.urls import include, path
-from accounts.views import api_create_custom_user
+
+from accounts.views import api_create_custom_user, api_get_registered_domain_mappings
+from accounts.urls import api_urlpatterns
 
 urlpatterns = [
     path("auth/", include("rest_framework.urls")),
-    path("users/register-user/", api_create_custom_user),
+    path("accounts/", include(api_urlpatterns)),
 ]

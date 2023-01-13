@@ -7,7 +7,7 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ("landing_page", "0009_map"),
+        ("profile", "0009_map"),
     ]
 
     operations = [
@@ -18,7 +18,7 @@ class Migration(migrations.Migration):
                 blank=True,
                 null=True,
                 on_delete=django.db.models.deletion.DO_NOTHING,
-                to="landing_page.map",
+                to="profile.map",
             ),
         ),
         migrations.AddField(

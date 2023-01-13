@@ -6,7 +6,7 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ("landing_page", "0002_landingpage_github_landingpage_instagram_and_more"),
+        ("profile", "0002_landingpage_github_landingpage_instagram_and_more"),
     ]
 
     operations = [

@@ -12,3 +12,4 @@ boto3
 beautifulsoup4
 djangorestframework==3.14.0
 django-filter
+django-rename-app

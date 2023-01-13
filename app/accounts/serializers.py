@@ -1,6 +1,5 @@
 from rest_framework import serializers
-from django.contrib.auth import get_user_model  # If used custom user model
-from accounts.models import CustomUser
+from accounts.models import CustomUser, Domain
 
 
 class CustomUserSerializer(serializers.ModelSerializer):
@@ -25,3 +24,12 @@ class CustomUserSerializer(serializers.ModelSerializer):
             "password",
             "name",
         )
+
+
+class DomainSerializer(serializers.ModelSerializer):
+
+    user = CustomUserSerializer()
+
+    class Meta:
+        model = Domain
+        fields = ("id", "user", "name")

@@ -41,9 +41,10 @@ INSTALLED_APPS = [
     # Third Party Apps
     "storages",  # Static File Storage with django-storage
     "rest_framework",  # Rest Framework for Editor Client
+    "django_rename_app",
     # Our Apps
     "accounts",
-    "landing_page",
+    "profile",
     "blog",
     "content",
 ]

@@ -38,9 +38,9 @@ def LandingPageView(request):
     }
 
     if landing.template is not None:
-        template = f"landing_page/{landing.template.template_name}"
+        template = f"profile/{landing.template.template_name}"
         print(template)
     else:
-        template = "landing_page/SethHome.html"
+        template = "profile/SethHome.html"
 
     return render(request, template, context)
