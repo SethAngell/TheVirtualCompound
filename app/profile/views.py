@@ -1,7 +1,11 @@
 from django.db.models import Case, When
 from django.shortcuts import render
 
-from .models import Experience, LandingPage
+from rest_framework.generics import ListAPIView
+from rest_framework.permissions import AllowAny
+
+from profile.models import Experience, LandingPage, Design, Map, FavoriteThing
+from profile.serializers import DesignSerializer, MapSerializer, FavoriteThingSerializer
 
 
 # Create your views here.
@@ -44,3 +48,22 @@ def LandingPageView(request):
         template = "profile/SethHome.html"
 
     return render(request, template, context)
+
+
+# === API Views === #
+class api_get_available_designs(ListAPIView):
+    queryset = Design.objects.all()
+    permission_classes = [AllowAny]
+    serializer_class = DesignSerializer
+
+
+class api_get_available_maps(ListAPIView):
+    queryset = Map.objects.all()
+    permission_classes = [AllowAny]
+    serializer_class = MapSerializer
+
+
+class api_get_available_favorite_things(ListAPIView):
+    queryset = FavoriteThing.objects.all()
+    permission_classes = [AllowAny]
+    serializer_class = FavoriteThingSerializer

@@ -1,15 +1,18 @@
-{% extends "_base.html" %} {% load static %} {% load timeline_helper %} {% block
-meta %}
+{% extends "_base.html" %} {% load static %} {% load timeline_helper %} {% block meta %}
 <meta property="og:title" content="{{ landing.name }}" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="{{ meta.url }}" />
 <meta property="og:image" content="{{ landing.avatar.url }}" />
 <meta property="og:description" content="{{ landing.headline }}" />
 <meta property="og:site_name" content="{{ meta.url }}" />
-{% endblock meta %} {% block links %} <link rel="stylesheet" href="{% static
-"css/tailwind-output.css" %}"> {% endblock %} {% block style %} h1, h2, a {
-font-family: 'Rubik', sans-serif; } p { font-family: 'Karla', sans-serif; } {%
-endblock %} {% block font %}
+{% endblock meta %} 
+{% block links %} 
+<link rel="stylesheet" href="{% static "css/tailwind-output.css" %}"> 
+{% endblock %} 
+{% block style %} 
+h1, h2, a {font-family: 'Rubik', sans-serif; } p { font-family: 'Karla', sans-serif; } 
+{%endblock %} 
+{% block font %}
 <link
   defer
   href="https://fonts.googleapis.com/css2?family=Fira+Code&family=Karla&family=Rubik:wght@500;700&display=swap"
@@ -20,17 +23,16 @@ endblock %} {% block font %}
   src="https://kit.fontawesome.com/273c56c702.js"
   crossorigin="anonymous"
 ></script>
-{% endblock %} {% block title %}Home{% endblock title %} {% block content %}
+{% endblock %} 
+{% block title %}Home{% endblock title %} 
+{% block content %}
 
 <div id="main" class="h-screen flex flex-col justify-between lg:flex-row">
   <div
     id="intro"
     class="basis-1/2 bg-inherit flex flex-col justify-center content-center"
   >
-    {% if landing.map_overlay.overlay_name|length > 0 %} {% with
-    light_overlay='profile/assets/'|add:landing.map_overlay.overlay_name|add:'.svg'
-    dark_overlay='profile/assets/'|add:landing.map_overlay.overlay_name|add:'_dark.svg'
-    %}
+    {% if landing.map_overlay.overlay_name|length > 0 %} {% with light_overlay='profile/assets/'|add:landing.map_overlay.overlay_name|add:'.svg' dark_overlay='profile/assets/'|add:landing.map_overlay.overlay_name|add:'_dark.svg' %}
     <style scoped>
       .dynamic-overlay {
         background-image: url("{% static light_overlay %}");

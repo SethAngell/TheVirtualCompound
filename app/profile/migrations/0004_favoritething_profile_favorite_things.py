@@ -7,7 +7,7 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ("profile", "0003_landingpage_linkedin"),
+        ("profile", "0003_profile_linkedin"),
     ]
 
     operations = [

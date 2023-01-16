@@ -24,4 +24,6 @@ RUN pip install -r requirements.txt
 # Install App
 COPY . .
 
-ENTRYPOINT (python manage.py runserver 0.0.0.0:8000)
+ENTRYPOINT ( python manage.py collectstatic --noinput && python manage.py rename_app landing_page profile && python manage.py migrate --noinput && python manage.py runserver 0.0.0.0:8000)
+
+#ENTRYPOINT (python manage.py runserver 0.0.0.0:8000)

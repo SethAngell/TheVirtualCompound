@@ -44,7 +44,7 @@ class Map(models.Model):
 #   -> Pull Path and Viewbox
 #   -> Reconstruct SVG in template with Tailwind classes for colors
 class FavoriteThing(models.Model):
-    thing_name = models.CharField(max_length=150)
+    thing_name = models.CharField(max_length=150, blank=True)
     svg_icon = models.FileField(upload_to="favorite_things/")
     path_attribute = models.CharField(max_length=10000, null=True, blank=True)
     viewbox_attribute = models.CharField(max_length=128, null=True, blank=True)
@@ -70,10 +70,15 @@ class FavoriteThing(models.Model):
 
         return path, viewbox
 
+    def extract_name(self, file_name):
+        return file_name.split(".")[0]
+
     def save(self, *args, **kwargs):
         self.path_attribute, self.viewbox_attribute = self.extract_path(
             self.svg_icon.file.file
         )
+        if len(self.thing_name) == 0:
+            self.thing_name = self.extract_name(self.svg_icon.file.name)
         super(FavoriteThing, self).save(*args, **kwargs)
 
 

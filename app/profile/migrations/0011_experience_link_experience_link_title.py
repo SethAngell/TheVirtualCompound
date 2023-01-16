@@ -6,7 +6,7 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ("profile", "0010_landingpage_map_overlay_map_overlay_name"),
+        ("profile", "0010_profile_map_overlay_map_overlay_name"),
     ]
 
     operations = [
