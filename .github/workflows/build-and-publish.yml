@@ -6,6 +6,9 @@ on:
       - main
     types:
       - closed
+  push:
+    branches:
+      - main
 
 jobs:
   build-and-push-docker-image:
