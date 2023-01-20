@@ -43,7 +43,7 @@ jobs:
 
       - name: Autoincrement a new patch version
         run: |
-          echo "MINOR_VERSION=$((${{ var.MINOR_VERSION }}+1))" >> $GITHUB_ENV
+          echo "MINOR_VERSION=$((${{ vars.MINOR_VERSION }}+1))" >> $GITHUB_ENV
 
       - name: update minor version
         run: |
@@ -94,11 +94,7 @@ jobs:
 
   spin-up-new-version-of-the-compound:
     needs:
-      [
-        shut-down-current-version,
-        download-updated-docker-compose,
-        download-updated-build-script,
-      ]
+      [ shut-down-current-version, download-updated-docker-compose, download-updated-build-script ]
     if: always()
     runs-on: ubuntu-latest
     steps:
