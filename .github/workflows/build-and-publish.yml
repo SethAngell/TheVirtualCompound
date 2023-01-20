@@ -43,7 +43,8 @@ jobs:
           echo "MINOR_VERSION=$((${{ var.MINOR_VERSION }}+1))" >> $GITHUB_ENV
 
       - name: update minor version
-        run: gh api --method PATCH -H "Accept: application/vnd.github+json" /repositories/496685675/environments//variables/MINOR_VERSION -f name='MINOR_VERSION' \-f value=$NEW_VERSION 
+        run: |
+          gh api --method PATCH -H "Accept: application/vnd.github+json" /repositories/496685675/environments//variables/MINOR_VERSION -f name='MINOR_VERSION' \-f value=$NEW_VERSION 
         env:
           GITHUB_TOKEN: ${{ secrets.GHCR_PAT }}
           NEW_VERSION: ${{ env.MINOR_VERSION }}
