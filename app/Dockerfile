@@ -1,4 +1,4 @@
-FROM python:3.9.5-slim-buster
+FROM python:3.10.9-slim-buster
 
 # Set working directory for all following in container commands
 WORKDIR /usr/src/app

@@ -1,11 +1,22 @@
 from django.db.models import Case, When
 from django.shortcuts import render
 
-from rest_framework.generics import ListAPIView
-from rest_framework.permissions import AllowAny
+from rest_framework.generics import (
+    ListAPIView,
+    RetrieveUpdateDestroyAPIView,
+    CreateAPIView,
+)
+from rest_framework.permissions import AllowAny, IsAuthenticated
 
+from utils.permissions import IsOwner
 from profile.models import Experience, LandingPage, Design, Map, FavoriteThing
-from profile.serializers import DesignSerializer, MapSerializer, FavoriteThingSerializer
+from profile.serializers import (
+    DesignSerializer,
+    MapSerializer,
+    FavoriteThingSerializer,
+    ExperienceSerializer,
+    LandingPageSerializer,
+)
 
 
 # Create your views here.
@@ -67,3 +78,25 @@ class api_get_available_favorite_things(ListAPIView):
     queryset = FavoriteThing.objects.all()
     permission_classes = [AllowAny]
     serializer_class = FavoriteThingSerializer
+
+
+class api_get_update_delete_experience(RetrieveUpdateDestroyAPIView):
+    queryset = Experience.objects.all()
+    permission_classes = [IsOwner]
+    serializer_class = ExperienceSerializer
+
+
+class api_create_experience(CreateAPIView):
+    permission_classes = [IsAuthenticated]
+    serializer_class = ExperienceSerializer
+
+
+class api_get_update_delete_landing_page(RetrieveUpdateDestroyAPIView):
+    queryset = LandingPage.objects.all()
+    permission_classes = [IsOwner]
+    serializer_class = LandingPageSerializer
+
+
+class api_create_landing_page(CreateAPIView):
+    permission_class = [IsAuthenticated]
+    serializer_class = LandingPageSerializer

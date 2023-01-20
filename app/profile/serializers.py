@@ -29,3 +29,14 @@ class FavoriteThingSerializer(serializers.ModelSerializer):
     class Meta:
         model = FavoriteThing
         fields = "__all__"
+
+
+class ExperienceSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Experience
+        fields = "__all__"
+
+class LandingPageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = LandingPage
+        fields = "__all__"
