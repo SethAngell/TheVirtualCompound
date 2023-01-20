@@ -16,7 +16,7 @@ jobs:
     steps:
       - name: Checkout Code
         uses: actions/checkout@v2
-      
+
       - name: Set up Docker Buildx
         id: buildx
         uses: docker/setup-buildx-action@v2
@@ -36,59 +36,77 @@ jobs:
           push: true
           tags: |
             ghcr.io/sethangell/oys:latest
-            ghcr.io/sethangell/oys:${{ secrets.MAJOR_VERSION }}.${{ secrets.MINOR_VERSION }}
-      
+            ghcr.io/sethangell/oys:${{ vars.MAJOR_VERSION }}.${{ vars.MINOR_VERSION }}
+
       - name: Autoincrement a new patch version
         run: |
-          echo "MINOR_VERSION=$((${{ secrets.MINOR_VERSION }}+1))" >> $GITHUB_ENV
-      
-      - name: Increment minor version value
-        uses: hmanzur/actions-set-secret@v2.0.0
-        with:
-          name: 'MINOR_VERSION'
-          value: ${{ env.MINOR_VERSION }}
-          token: ${{ secrets.REPO_ACCESS_TOKEN }}
-  
+          echo "MINOR_VERSION=$((${{ var.MINOR_VERSION }}+1))" >> $GITHUB_ENV
+
+      - name: update minor version
+        run: gh api --method PATCH -H "Accept: application/vnd.github+json" /repositories/496685675/environments//variables/MINOR_VERSION -f name='MINOR_VERSION' \-f value=$NEW_VERSION 
+        env:
+          GITHUB_TOKEN: ${{ secrets.GHCR_PAT }}
+          NEW_VERSION: ${{ env.MINOR_VERSION }}
+
+
   shut-down-current-version:
     runs-on: ubuntu-latest
     needs: build-and-push-docker-image
     steps:
-    - name: Retrieving up to date docker-compose.yaml
-      uses: appleboy/ssh-action@master
-      with:
-        host: ${{ secrets.SSH_HOST }}
-        username: ${{ secrets.SSH_USER }}
-        password: ${{ secrets.SSH_PASSWORD }}
-        port: ${{ secrets.SSH_PORT }}
-        script: (cd /home/TheCompound && docker-compose down)
+      - name: Retrieving up to date docker-compose.yaml
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          password: ${{ secrets.SSH_PASSWORD }}
+          port: ${{ secrets.SSH_PORT }}
+          script: (cd /home/TheCompound && docker-compose down)
 
   download-updated-docker-compose:
     needs: shut-down-current-version
     runs-on: ubuntu-latest
     steps:
-    - name: Retrieving up to date docker-compose.yaml
-      uses: appleboy/ssh-action@master
-      with:
-        host: ${{ secrets.SSH_HOST }}
-        username: ${{ secrets.SSH_USER }}
-        password: ${{ secrets.SSH_PASSWORD }}
-        port: ${{ secrets.SSH_PORT }}
-        script: curl -o /home/TheCompound/docker-compose.yml https://raw.githubusercontent.com/SethAngell/TheVirtualCompound/main/.ci/docker-compose.yml
+      - name: Retrieving up to date docker-compose.yaml
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          password: ${{ secrets.SSH_PASSWORD }}
+          port: ${{ secrets.SSH_PORT }}
+          script: curl -o /home/TheCompound/docker-compose.yml https://raw.githubusercontent.com/SethAngell/TheVirtualCompound/main/.ci/docker-compose.yml
+
+  download-updated-build-script:
+    needs: shut-down-current-version
+    runs-on: ubuntu-latest
+    steps:
+      - name: Retrieving up to date build.sh
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          password: ${{ secrets.SSH_PASSWORD }}
+          port: ${{ secrets.SSH_PORT }}
+          script: curl -o /home/TheCompound/build.sh https://raw.githubusercontent.com/SethAngell/TheVirtualCompound/main/.ci/build.sh
 
   spin-up-new-version-of-the-compound:
-    needs: [shut-down-current-version, download-updated-docker-compose]
+    needs:
+      [
+        shut-down-current-version,
+        download-updated-docker-compose,
+        download-updated-build-script,
+      ]
     if: always()
     runs-on: ubuntu-latest
     steps:
-    - name: Retrieving up to date docker-compose.yaml
-      uses: appleboy/ssh-action@master
-      with:
-        host: ${{ secrets.SSH_HOST }}
-        username: ${{ secrets.SSH_USER }}
-        password: ${{ secrets.SSH_PASSWORD }}
-        port: ${{ secrets.SSH_PORT }}
-        script: (cd /home/TheCompound && docker-compose up -d)
-  
+      - name: Restarting Django Project
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          password: ${{ secrets.SSH_PASSWORD }}
+          port: ${{ secrets.SSH_PORT }}
+          script: (cd /home/TheCompound && source ./build.sh)
+
   see-if-site-is-back-online:
     needs: spin-up-new-version-of-the-compound
     name: healthcheck
@@ -116,6 +134,3 @@ jobs:
           TWILIO_ACCOUNT_SID: ${{ secrets.TWILIO_ACCOUNT_SID }}
           TWILIO_API_KEY: ${{ secrets.TWILIO_API_KEY }}
           TWILIO_API_SECRET: ${{ secrets.TWILIO_API_SECRET }}
-
-
-
