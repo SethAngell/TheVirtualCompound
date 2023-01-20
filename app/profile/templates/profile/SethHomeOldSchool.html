@@ -77,7 +77,7 @@ font-family: 'Rubik', sans-serif; } p { font-family: 'Karla', sans-serif; }
             class=".content-body hover:text-seth-blue-600 dark:hover:text-slate-400"
             >BLOG</a
           >
-          {% if landing.resume.url|length > 0 %}
+          {% if landing.resume %}
           <p class="text-lg font-black .content-body">•</p>
           <a
             href="{{ landing.resume.url }}"
