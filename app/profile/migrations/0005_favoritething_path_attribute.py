@@ -6,7 +6,7 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ("landing_page", "0004_favoritething_landingpage_favorite_things"),
+        ("profile", "0004_favoritething_profile_favorite_things"),
     ]
 
     operations = [
