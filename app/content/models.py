@@ -2,13 +2,12 @@ from accounts.models import CustomUser
 from django.db import models
 
 
-# Prime for a refactor
 def image_upload_location(instance, filename):
-    return f"content/{instance.user.id}/images/"
+    return f"content/{instance.user.id}/images/{filename}"
 
 
 def document_upload_location(instance, filename):
-    return f"content/{instance.user.id}/documents/"
+    return f"content/{instance.user.id}/documents/{filename}"
 
 
 class UserImage(models.Model):
