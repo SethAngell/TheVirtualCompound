@@ -18,13 +18,14 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import include, path
 
-from profile.urls import static_urlpatterns
+from profile.urls import static_urlpatterns as profile_urls
+from blog.urls import static_urlpatterns as blog_urls
 
 urlpatterns = (
     [
         path("admin/", admin.site.urls),
-        path("", include(static_urlpatterns)),
-        path("blog/", include("blog.urls")),
+        path("", include(profile_urls)),
+        path("blog/", include(blog_urls)),
         path("api/v1/", include("api.v1.urls")),
     ]
     + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
