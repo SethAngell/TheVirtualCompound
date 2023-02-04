@@ -34,7 +34,7 @@ class Blog(models.Model):
 
 
 class TopicTags(models.Model):
-    tag_name = models.CharField(max_length=50)
+    tag_name = models.CharField(max_length=50, unique=True)
 
     def __str__(self):
         return self.tag_name
@@ -101,9 +101,6 @@ class PostImage(models.Model):
         if self.image:
             self.image = self.generate_png_version(self.image, self.reference)
 
-        if not self.make_thumbnail():
-            raise Exception("Could not create thumbnail - is the file type valid?")
-
         super().save(*args, **kwargs)
 
 
@@ -112,7 +109,7 @@ class BlogPost(models.Model):
     title = models.CharField(max_length=256, blank=True)
     markdown_body = models.TextField()
     html_body = models.TextField(blank=True)
-    tags = models.ManyToManyField(TopicTags)
+    tags = models.ManyToManyField(TopicTags, blank=True, null=True)
     preview = models.CharField(max_length=400, blank=True)
     slug = models.SlugField(null=False, unique=True, blank=True, max_length=256)
     created_date = models.DateField(auto_now_add=True, blank=True)
@@ -203,7 +200,6 @@ class BlogPost(models.Model):
         self.open_graph_protocol_description = "".join(
             BeautifulSoup(self.preview).findAll(text=True)
         )
-        self.image_encoding = self.determine_image_encoding()
         self.html_body = markdown.markdown(
             self.markdown_body,
             extensions=[
@@ -226,7 +222,7 @@ class SocialImage(models.Model):
         blank=True, null=False, upload_to="blog_images/social_images"
     )
 
-    def _generate_hero_image():
+    def _generate_hero_image(self):
         # do stuff
         return None
 
@@ -237,6 +233,5 @@ class SocialImage(models.Model):
 
 
 @receiver(post_save, sender=BlogPost)
-def my_handler(sender, **kwargs):
-    new_social_image = SocialImage(post=sender)
-    new_social_image.save()
+def my_handler(**kwargs):
+    SocialImage.objects.create(post=kwargs["instance"])

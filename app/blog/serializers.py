@@ -12,3 +12,9 @@ class BlogPostSerializer(serializers.ModelSerializer):
     class Meta:
         model = BlogPost
         fields = "__all__"
+
+
+class TopicTagSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = TopicTags
+        fields = "__all__"

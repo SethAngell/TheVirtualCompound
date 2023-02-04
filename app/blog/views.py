@@ -1,12 +1,13 @@
 from accounts.models import Domain
 from django.shortcuts import render
-from rest_framework.generics import RetrieveUpdateDestroyAPIView
+from rest_framework.generics import RetrieveUpdateDestroyAPIView, ListCreateAPIView
+from rest_framework import mixins
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.exceptions import APIException
 
 
-from blog.models import BlogPost, Blog
-from blog.serializers import BlogSerializer, BlogPostSerializer
+from blog.models import BlogPost, Blog, TopicTags
+from blog.serializers import BlogSerializer, BlogPostSerializer, TopicTagSerializer
 
 
 # Create your views here.
@@ -56,7 +57,9 @@ class NoBlogExists(APIException):
     default_code = "Object does not exist"
 
 
-class api_get_create_update_delete_blog(RetrieveUpdateDestroyAPIView):
+class api_get_create_update_delete_blog(
+    mixins.CreateModelMixin, RetrieveUpdateDestroyAPIView
+):
     permission_classes = [IsAuthenticated]
     serializer_class = BlogSerializer
 
@@ -69,10 +72,27 @@ class api_get_create_update_delete_blog(RetrieveUpdateDestroyAPIView):
         else:
             raise NoBlogExists()
 
+    def post(self, request, *args, **kwargs):
+        return self.create(request, *args, **kwargs)
 
-# class api_list_create_blog(ListCreateAPIView):
-#     permission_classes = [IsAuthenticated]
-#     serializer_class = BlogSerializer
 
-#     def get_queryset(self):
-#         return Blog.objects.filter(user=self.request.user)
+class api_list_create_blog_posts(ListCreateAPIView):
+    permission_classes = [IsAuthenticated]
+    serializer_class = BlogPostSerializer
+
+    def get_queryset(self):
+        return BlogPost.objects.filter(parent_blog__blog_owner=self.request.user)
+
+
+class api_retrieve_update_delete_blog_posts(RetrieveUpdateDestroyAPIView):
+    serializer_class = BlogPostSerializer
+    permissions_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        return BlogPost.objects.filter(parent_blog__blog_owner=self.request.user)
+
+
+class api_list_create_topic_tags(ListCreateAPIView):
+    serializer_class = TopicTagSerializer
+    permissions_classes = [IsAuthenticated]
+    queryset = TopicTags.objects.all()
