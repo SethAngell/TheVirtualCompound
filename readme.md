@@ -1,5 +1,7 @@
 # The Compound: Our little corner of the internet
 
+[![Automated Site Deployment](https://github.com/SethAngell/TheVirtualCompound/actions/workflows/build-and-publish.yml/badge.svg?branch=main)](https://github.com/SethAngell/TheVirtualCompound/actions/workflows/build-and-publish.yml)
+
 The compound is the next logical progression of my personal
 portfolio site. A more dynamic, user friendly version which
 my friends can use as a blog and general portfolio.

@@ -29,7 +29,9 @@ INSTALLED_APPS = [
     # Third Party Apps
     "storages",  # Static File Storage with django-storage
     "rest_framework",  # Rest Framework for Editor Client
-    "django_rename_app",
+    "django_rename_app",  # Django app renaming service
+    "rest_framework_simplejwt",  # JWT library for client auth
+    "corsheaders",  # CORS header support for client auth
     # Our Apps
     "accounts",
     "profile",
@@ -38,6 +40,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    "corsheaders.middleware.CorsMiddleware",
     "django.middleware.security.SecurityMiddleware",
     "TheCompound.middleware.MultiSiteMiddleware.MultiSiteMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
@@ -151,7 +154,6 @@ if bool(int(os.environ.get("USE_S3", 0))):
     # Remove query string from the url
     AWS_QUERYSTRING_AUTH = False
 
-
 else:
     STATIC_URL = "static/"
     STATIC_ROOT = os.path.join("static")
@@ -161,6 +163,24 @@ else:
 STATICFILES_DIRS = [
     BASE_DIR / "project_static",
 ]
+
+# ===============================
+# = = = API Auth Settings = = = =
+
+REST_FRAMEWORK = {
+    "DEFAULT_PERMISSION_CLASSES": (
+        "rest_framework.permissions.IsAuthenticatedOrReadOnly",
+    ),
+    "DEFAULT_AUTHENTICATION_CLASSES": (
+        "rest_framework_simplejwt.authentication.JWTAuthentication",
+        "rest_framework.authentication.SessionAuthentication",
+        "rest_framework.authentication.BasicAuthentication",
+    ),
+}
+
+CORS_ALLOWED_ORIGINS = os.environ.get(
+    "CORS_ALLOWED_ORIGINS", "http://localhost:5173"
+).split(" ")
 
 # ===============================
 # = = = Deployment Settings = = =
@@ -175,22 +195,22 @@ if DEBUG is False:
     SECURE_HSTS_INCLUDE_SUBDOMAINS = True
     SECURE_HSTS_PRELOAD = True
     SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
-    
+
     LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': False,
-    'handlers': {
-        'file': {
-            'level': 'DEBUG',
-            'class': 'logging.FileHandler',
-            'filename': 'debug.log',
+        "version": 1,
+        "disable_existing_loggers": False,
+        "handlers": {
+            "file": {
+                "level": "DEBUG",
+                "class": "logging.FileHandler",
+                "filename": "debug.log",
+            },
         },
-    },
-    'loggers': {
-        'django': {
-            'handlers': ['file'],
-            'level': 'DEBUG',
-            'propagate': True,
+        "loggers": {
+            "django": {
+                "handlers": ["file"],
+                "level": "DEBUG",
+                "propagate": True,
+            },
         },
-    },
-}
+    }
