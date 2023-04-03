@@ -30,7 +30,7 @@ INSTALLED_APPS = [
     "storages",  # Static File Storage with django-storage
     "rest_framework",  # Rest Framework for Editor Client
     "django_rename_app",  # Django app renaming service
-    "rest_framework_simplejwt",  # JWT library for client auth
+    "knox",  # 3rd party token library for SPA auth
     "corsheaders",  # CORS header support for client auth
     # Our Apps
     "accounts",
@@ -172,7 +172,7 @@ REST_FRAMEWORK = {
         "rest_framework.permissions.IsAuthenticatedOrReadOnly",
     ),
     "DEFAULT_AUTHENTICATION_CLASSES": (
-        "rest_framework_simplejwt.authentication.JWTAuthentication",
+        "knox.auth.TokenAuthentication",
         "rest_framework.authentication.SessionAuthentication",
         "rest_framework.authentication.BasicAuthentication",
     ),
@@ -181,6 +181,14 @@ REST_FRAMEWORK = {
 CORS_ALLOWED_ORIGINS = os.environ.get(
     "CORS_ALLOWED_ORIGINS", "http://localhost:5173"
 ).split(" ")
+
+CORS_ALLOW_HEADERS = ["Authentication", "content-type"]
+
+REST_KNOX = {
+    "USER_SERIALIZER": "accounts.serializers.CustomUserSerializer",
+    "AUTO_REFRESH": True,
+}
+
 
 # ===============================
 # = = = Deployment Settings = = =

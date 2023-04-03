@@ -27,6 +27,7 @@ def validate_svg(file):
 class Design(models.Model):
     template_name = models.CharField(max_length=150)
     name = models.CharField(max_length=150)
+    example = models.ImageField(blank=False, null=True)
 
     def __str__(self):
         return self.name

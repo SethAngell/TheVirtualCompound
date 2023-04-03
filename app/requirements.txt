@@ -13,5 +13,5 @@ beautifulsoup4
 djangorestframework==3.14.0
 django-filter
 django-rename-app
-djangorestframework-simplejwt
 django-cors-headers
+django-rest-knox
