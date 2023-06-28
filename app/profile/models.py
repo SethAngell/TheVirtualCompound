@@ -118,7 +118,7 @@ class Experience(models.Model):
     start_year = models.IntegerField()
     end_year = models.IntegerField(blank=True, null=True)
     link = models.URLField(blank=True, null=True)
-    link_title = models.URLField(blank=True, null=True)
+    link_title = models.CharField(max_length=128, blank=True, null=True)
 
     def __str__(self):
         return f"{self.user} - {self.company}"

@@ -5,6 +5,7 @@ from rest_framework.generics import (
     ListAPIView,
     RetrieveUpdateDestroyAPIView,
     CreateAPIView,
+    ListCreateAPIView,
 )
 from rest_framework.permissions import AllowAny, IsAuthenticated
 
@@ -86,9 +87,12 @@ class api_get_update_delete_experience(RetrieveUpdateDestroyAPIView):
     serializer_class = ExperienceSerializer
 
 
-class api_create_experience(CreateAPIView):
+class api_create_experience(ListCreateAPIView):
     permission_classes = [IsAuthenticated]
     serializer_class = ExperienceSerializer
+
+    def get_queryset(self):
+        return Experience.objects.filter(user=self.request.user)
 
 
 class api_get_update_delete_landing_page(RetrieveUpdateDestroyAPIView):
