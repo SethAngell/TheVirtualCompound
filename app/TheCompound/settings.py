@@ -32,6 +32,7 @@ INSTALLED_APPS = [
     "django_rename_app",  # Django app renaming service
     "knox",  # 3rd party token library for SPA auth
     "corsheaders",  # CORS header support for client auth
+    "django_extensions",  # extension libraries which enables data installers
     # Our Apps
     "accounts",
     "profile",

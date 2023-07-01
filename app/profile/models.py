@@ -69,7 +69,12 @@ class FavoriteThing(models.Model):
         return path, viewbox
 
     def extract_name(self, file_name):
-        return file_name.split(".")[0]
+        title_case_words = file_name.split(".")[0].split("-")
+        for word in range(0, len(title_case_words)):
+            title_case_words[word] = (
+                title_case_words[word][0].upper() + title_case_words[word][1:]
+            )
+        return " ".join(title_case_words)
 
     def save(self, *args, **kwargs):
         self.path_attribute, self.viewbox_attribute = self.extract_path(
