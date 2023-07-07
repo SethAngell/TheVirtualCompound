@@ -1,5 +1,10 @@
 from django.db.models import Case, When
 from django.shortcuts import render
+import json
+
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework.exceptions import APIException
 
 from rest_framework.generics import (
     ListAPIView,
@@ -104,3 +109,20 @@ class api_get_update_delete_landing_page(RetrieveUpdateDestroyAPIView):
 class api_create_landing_page(CreateAPIView):
     permission_class = [IsAuthenticated]
     serializer_class = LandingPageSerializer
+
+class api_get_profile_picture(APIView):
+
+    def get(self, request, pk, format=None):
+        print(pk)
+        try:
+            profile = LandingPage.objects.get(user=pk)
+            profile_pic_url = request.build_absolute_uri(profile.avatar.url)
+            print(profile_pic_url)
+            return Response({'url':profile_pic_url})
+        except LandingPage.DoesNotExist:
+            raise NoLandingPageConfiguredException
+
+class NoLandingPageConfiguredException(APIException):
+    status_code = 404
+    default_detail = 'NoLandingPageConfiguredExpection: No Profile exists for provided user'
+    default_code = 'profile_not_found'

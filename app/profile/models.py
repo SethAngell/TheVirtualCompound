@@ -64,7 +64,6 @@ class FavoriteThing(models.Model):
 
         viewbox = root.attrib["viewBox"]
         path = tree.find("./path").attrib["d"]
-        print(len(path), path[:10], len(viewbox), viewbox[:10])
 
         return path, viewbox
 
@@ -89,10 +88,10 @@ class LandingPage(models.Model):
     user = models.OneToOneField(
         settings.AUTH_USER_MODEL, primary_key=True, on_delete=models.CASCADE
     )
-    name = models.CharField(max_length=100)
-    bio = models.TextField()
-    headline = models.CharField(max_length=100)
-    avatar = models.ImageField()
+    name = models.CharField(null=False, blank=True, max_length=100)
+    bio = models.TextField(null=False, blank=True)
+    headline = models.CharField(null=False, blank=True, max_length=100)
+    avatar = models.ImageField(null=False, blank=True)
 
     contact_email = models.EmailField(null=True, blank=True)
     instagram = models.CharField(max_length=100, null=True, blank=True)

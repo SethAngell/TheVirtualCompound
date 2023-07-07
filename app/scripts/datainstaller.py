@@ -34,7 +34,7 @@ def loadMaps(config):
 
 def loadDesigns(config):
     for design in config["Templates"]:
-        with open(design["example"], "r") as ifile:
+        with open(design["example"], "rb") as ifile:
             django_file = File(ifile, design["example"].split("/")[-1])
             newTemplate = Design(
                 template_name=design["template_name"],
@@ -47,12 +47,13 @@ def loadDesigns(config):
 def loadExperiences(config):
     for experience in config["Experiences"]:
         newExp = ExperienceSerializer(data=experience)
+        newExp.is_valid()
         newExp.save()
 
 
 def run():
     config = loadConfig()
-    loadFavoriteThings(config)
-    loadMaps(config)
-    loadDesigns(config)
+    # loadFavoriteThings(config)
+    # loadMaps(config)
+    # loadDesigns(config)
     loadExperiences(config)
