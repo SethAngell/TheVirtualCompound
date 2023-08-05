@@ -29,9 +29,9 @@ def blog_index(request):
     blogs = BlogPost.objects.filter(
         visibility="PU", parent_blog__blog_owner=user
     ).order_by("-created_date")
-    host = Blog.objects.filter(blog_owner=user)
+    host = Blog.objects.get(blog_owner=user)
 
-    context = {"meta": {"url": request.site.name, "name": str(user)}, "posts": blogs, "blog": host[0]}
+    context = {"meta": {"url": request.site.name, "name": str(user)}, "posts": blogs, "blog": host}
     print(context)
     print(context['meta'])
 
