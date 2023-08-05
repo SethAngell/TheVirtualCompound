@@ -138,9 +138,10 @@ if bool(int(os.environ.get("USE_S3", 0))):
     # Minio Specific
     AWS_ACCESS_KEY_ID = os.environ.get("S3_KEY")
     AWS_SECRET_ACCESS_KEY = os.environ.get("S3_SECRET_KEY")
-    AWS_STORAGE_BUCKET_NAME = "cdn.doublel.studio"
-    AWS_S3_ENDPOINT_URL = "https://cdn.doublel.studio/"
+    AWS_STORAGE_BUCKET_NAME = "content"
+    AWS_S3_ENDPOINT_URL = "https://cdn.thegoodinternet.org/"
     AWS_DEFAULT_ACL = "public-read"
+    AWS_S3_SIGNATURE_VERSION = 's3v4'
 
     # Static Config
     STATIC_LOCATION = "static"
