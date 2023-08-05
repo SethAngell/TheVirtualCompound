@@ -29,7 +29,11 @@ def blog_index(request):
     blogs = BlogPost.objects.filter(
         visibility="PU", parent_blog__blog_owner=user
     ).order_by("-created_date")
-    host = Blog.objects.get(blog_owner=user)
+    try:
+        host = Blog.objects.get(blog_owner=user)
+    except Blog.DoesNotExist:
+        host = None
+    
 
     context = {"meta": {"url": request.site.name, "name": str(user)}, "posts": blogs, "blog": host}
     print(context)
