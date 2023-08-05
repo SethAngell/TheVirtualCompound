@@ -18,6 +18,7 @@ def blog_detail(request, slug):
     blog_post = BlogPost.objects.get(slug=slug, parent_blog__blog_owner=user)
 
     context = {"meta": {"url": request.site.name, "name": str(user)}, "post": blog_post}
+    print(context['post'].tags)
 
     return render(request, "blog/blog_detail.html", context)
 
@@ -28,8 +29,11 @@ def blog_index(request):
     blogs = BlogPost.objects.filter(
         visibility="PU", parent_blog__blog_owner=user
     ).order_by("-created_date")
+    host = Blog.objects.filter(blog_owner=user)
 
-    context = {"meta": {"url": request.site.name, "name": str(user)}, "posts": blogs}
+    context = {"meta": {"url": request.site.name, "name": str(user)}, "posts": blogs, "blog": host[0]}
+    print(context)
+    print(context['meta'])
 
     return render(request, "blog/blog_index.html", context)
 

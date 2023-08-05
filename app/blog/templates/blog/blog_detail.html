@@ -17,11 +17,13 @@
 {% block content %}
 <div class="w-11/12 lg:w-3/5 flex flex-col mx-auto mt-5">
     <div class="w-full flex flex-row justify-start">
-        <a href="/" class="text-3xl font-bold text-slate-800 hover:text-slate-600 dark:hover:text-slate-200 dark:text-slate-50">Seth Angell</a>
+        <a href="/" class="text-3xl font-bold text-slate-800 hover:text-slate-600 dark:hover:text-slate-200 dark:text-slate-50">{{meta.name}}</a>
     </div>
     <div class="w-full flex flex-col justify-start mt-3">
+        {% if post.header_image %}
         <img class="aspect-[35/9] mx-auto mb-2.5 w-full rounded-md object-cover" src="{{post.header_image.image.url }}" alt="{{ post.header_image.alt_text}} ">
-        <div class-"flex-row">
+        {% endif %}
+        <div class="flex-row">
             {% for tag in post.tags.all %}
                 <a href="topics/{{tag}}" class="text-lg font-regular text-slate-50 bg-slate-800 w-fit px-2 py-1 hover:bg-slate-600 dark:hover:bg-slate-200 dark:bg-slate-50 dark:text-slate-800 rounded-lg">#{{ tag.tag_name }}</a>
             {% endfor %}
