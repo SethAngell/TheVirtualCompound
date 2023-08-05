@@ -9,6 +9,7 @@ from profile.views import (
     api_create_experience,
     api_get_update_delete_landing_page,
     api_create_landing_page,
+    api_get_profile_picture
 )
 
 static_urlpatterns = [path("", LandingPageView, name="home")]
@@ -21,4 +22,5 @@ api_urlpatterns = [
     path("experience/<int:pk>/", api_get_update_delete_experience.as_view()),
     path("landing-page/", api_create_landing_page.as_view()),
     path("landing-page/<int:pk>/", api_get_update_delete_landing_page.as_view()),
+    path("picture/<int:pk>/", api_get_profile_picture.as_view())
 ]

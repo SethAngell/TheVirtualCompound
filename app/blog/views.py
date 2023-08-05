@@ -81,7 +81,9 @@ class api_list_create_blog_posts(ListCreateAPIView):
     serializer_class = BlogPostSerializer
 
     def get_queryset(self):
-        return BlogPost.objects.filter(parent_blog__blog_owner=self.request.user)
+        return BlogPost.objects.filter(
+            parent_blog__blog_owner=self.request.user
+        ).order_by("created_date")
 
 
 class api_retrieve_update_delete_blog_posts(RetrieveUpdateDestroyAPIView):

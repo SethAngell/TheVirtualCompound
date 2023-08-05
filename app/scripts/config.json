@@ -1,0 +1,62 @@
+{
+  "STATIC": {
+    "FAVORITE_THINGS_SVG_DIRECTORY": "/usr/src/app/scripts/resources/icons"
+  },
+  "Maps": {
+    "Williamsburg, VA": "williamsburg",
+    "Moorisville, NC": "moorisville",
+    "Wrightsville Beach, NC": "wrightsville",
+    "Wilmington, NC": "ilm"
+  },
+  "Templates": [
+    {
+      "name": "The Old School Seth",
+      "template_name": "SethHomeOldSchool.html",
+      "example": "/usr/src/app/scripts/resources/design_examples/SethOldSchool.png"
+    },
+    {
+      "template_name": "SethHome.html",
+      "name": "The Seth",
+      "example": "/usr/src/app/scripts/resources/design_examples/SethHome.png"
+    }
+  ],
+  "Experiences": [
+    {
+      "company": "UNCW Mixed Reality Lab",
+      "title": "Graduate Research Assistant",
+      "description": "Manage a six person agile development time, including mentoring 4 new developers. Provide guidance on the Unity XR framework as well as data collection within virtual reality experiments. Manage the server and all active developer tools essential to day-to-day operation (Wiki, API’s, Homepage).",
+      "present": false,
+      "start_year": 2021,
+      "end_year": 2022,
+      "link": "https://ncino.com",
+      "link_title": "Company Website",
+      "user": 1
+    },
+    {
+      "company": "nCino",
+      "title": "Associate Software Engineer",
+      "description": "Working on our flagship products: Document Manager and Smart Checklist. Lead developer on the Docman and Smart Checklist effort to meet WCAG 2.1 compliance. Contribute heavily to internal documentation standards.",
+      "present": true,
+      "start_year": 2022,
+      "end_year": null,
+      "link": "https://ncino.com",
+      "link_title": "Company Website",
+      "user": 1
+    }
+  ],
+  "LandingPage": {
+    "user": 1,
+    "name": "Seth Angell",
+    "bio": "Cooking up software on the best coast. Proficient with Python, Django, HTML/CSS, C#, Databases, and Unity3D. Having lots of fun learning Salesforce and Angular. Podcast lover and Apple enthusiast who aims to bring a creative flair to the project. Passions involve generating software and hardware solutions to allow users to spend less time tinkering with platforms and more time creating the things they love.",
+    "headline": "Hey, I'm Seth. I build FinTech applications at nCino and pipe dreams with my friends.",
+    "avatar": "http://localhost:8009/media/IMG_3F768F1AEBC4-1_eVvx4Ot.jpeg",
+    "contact_email": "seth@sethangell.com",
+    "instagram": "SethAngell",
+    "twitter": "SethAngell",
+    "github": "SethAngell",
+    "linkedin": "SethAngell",
+    "resume": null,
+    "map_overlay": 1,
+    "template": 1
+  }
+}

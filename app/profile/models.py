@@ -27,6 +27,7 @@ def validate_svg(file):
 class Design(models.Model):
     template_name = models.CharField(max_length=150)
     name = models.CharField(max_length=150)
+    example = models.ImageField(blank=False, null=True)
 
     def __str__(self):
         return self.name
@@ -63,12 +64,16 @@ class FavoriteThing(models.Model):
 
         viewbox = root.attrib["viewBox"]
         path = tree.find("./path").attrib["d"]
-        print(len(path), path[:10], len(viewbox), viewbox[:10])
 
         return path, viewbox
 
     def extract_name(self, file_name):
-        return file_name.split(".")[0]
+        title_case_words = file_name.split(".")[0].split("-")
+        for word in range(0, len(title_case_words)):
+            title_case_words[word] = (
+                title_case_words[word][0].upper() + title_case_words[word][1:]
+            )
+        return " ".join(title_case_words)
 
     def save(self, *args, **kwargs):
         self.path_attribute, self.viewbox_attribute = self.extract_path(
@@ -83,10 +88,10 @@ class LandingPage(models.Model):
     user = models.OneToOneField(
         settings.AUTH_USER_MODEL, primary_key=True, on_delete=models.CASCADE
     )
-    name = models.CharField(max_length=100)
-    bio = models.TextField()
-    headline = models.CharField(max_length=100)
-    avatar = models.ImageField()
+    name = models.CharField(null=False, blank=True, max_length=100)
+    bio = models.TextField(null=False, blank=True)
+    headline = models.CharField(null=False, blank=True, max_length=100)
+    avatar = models.ImageField(null=False, blank=True)
 
     contact_email = models.EmailField(null=True, blank=True)
     instagram = models.CharField(max_length=100, null=True, blank=True)
@@ -117,7 +122,7 @@ class Experience(models.Model):
     start_year = models.IntegerField()
     end_year = models.IntegerField(blank=True, null=True)
     link = models.URLField(blank=True, null=True)
-    link_title = models.URLField(blank=True, null=True)
+    link_title = models.CharField(max_length=128, blank=True, null=True)
 
     def __str__(self):
         return f"{self.user} - {self.company}"
