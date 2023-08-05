@@ -137,7 +137,9 @@ h1, h2, a {font-family: 'Rubik', sans-serif; } p { font-family: 'Karla', sans-se
       </div>
 
       <div id="favorite-things">
+        {% if landing.favorite_things|length > 0 %}
         <h1 class="text-3xl mb-4">My Favorite Things:</h1>
+        {% endif %}
         <div class="grid md:grid-cols-3 lg:grid-cols-2 grid-cols-2 gap-y-2">
           {% for thing in landing.favorite_things.all %}
           <div
