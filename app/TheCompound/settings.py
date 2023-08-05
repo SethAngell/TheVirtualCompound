@@ -139,18 +139,19 @@ if bool(int(os.environ.get("USE_S3", 0))):
     AWS_ACCESS_KEY_ID = os.environ.get("S3_KEY")
     AWS_SECRET_ACCESS_KEY = os.environ.get("S3_SECRET_KEY")
     AWS_STORAGE_BUCKET_NAME = "content"
-    AWS_S3_ENDPOINT_URL = "https://cdn.thegoodinternet.org/"
+    AWS_S3_ENDPOINT_URL = "https://f35295ca4b5593f15d54cf0ca7041025.r2.cloudflarestorage.com/"
+    AWS_S3_CUSTOM_DOMAIN = "cdn.thegoodinternet.org/"
     AWS_DEFAULT_ACL = "public-read"
     AWS_S3_SIGNATURE_VERSION = 's3v4'
 
     # Static Config
     STATIC_LOCATION = "static"
     STATICFILES_STORAGE = "TheCompound.storage_backends.StaticStorage"
-    STATIC_URL = f"{AWS_S3_ENDPOINT_URL}{STATIC_LOCATION}/"
+    STATIC_URL = f"https://{AWS_S3_CUSTOM_DOMAIN}{STATIC_LOCATION}/"
 
     # Media Config
     PUBLIC_MEDIA_LOCATION = "media"
-    MEDIA_URL = f"{AWS_S3_ENDPOINT_URL}{PUBLIC_MEDIA_LOCATION}/"
+    MEDIA_URL = f"https://{AWS_S3_CUSTOM_DOMAIN}{PUBLIC_MEDIA_LOCATION}/"
     DEFAULT_FILE_STORAGE = "TheCompound.storage_backends.PublicMediaStorage"
 
     # Remove query string from the url
