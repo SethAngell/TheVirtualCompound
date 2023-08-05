@@ -234,4 +234,6 @@ class SocialImage(models.Model):
 
 @receiver(post_save, sender=BlogPost)
 def my_handler(**kwargs):
-    SocialImage.objects.create(post=kwargs["instance"])
+    print(kwargs["instance"])
+    if (SocialImage.objects.get(post=kwargs["instance"]) is None):
+        SocialImage.objects.create(post=kwargs["instance"])
