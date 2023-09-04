@@ -17,7 +17,7 @@ ARG DJANGO_SECRET_KEY
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 ENV DJANGO_DEBUG 0
-ENV ALLOWED_HOSTS sethangell.com test.doublel.studio 50.116.41.128
+ENV ALLOWED_HOSTS 50.116.41.128 ww.sethangell.com sethangell.com test.doublel.studio catstrickland.com www.catstrickland.com
 ENV USE_S3 1
 ENV DB_ENGINE django.db.backends.postgresql_psycopg2
 ENV DB_NAME: ${DB_NAME}
@@ -59,7 +59,7 @@ WORKDIR /usr/src/app
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 ENV DJANGO_DEBUG 0
-ENV ALLOWED_HOSTS sethangell.com test.doublel.studio
+ENV ALLOWED_HOSTS www.sethangell.com sethangell.com test.doublel.studio catstrickland.com www.catstrickland.com
 ENV USE_S3 1
 ENV DB_ENGINE django.db.backends.postgresql_psycopg2
 
