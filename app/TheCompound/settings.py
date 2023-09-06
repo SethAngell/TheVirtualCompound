@@ -139,10 +139,12 @@ if bool(int(os.environ.get("USE_S3", 0))):
     AWS_ACCESS_KEY_ID = os.environ.get("S3_KEY")
     AWS_SECRET_ACCESS_KEY = os.environ.get("S3_SECRET_KEY")
     AWS_STORAGE_BUCKET_NAME = "content"
-    AWS_S3_ENDPOINT_URL = "https://f35295ca4b5593f15d54cf0ca7041025.r2.cloudflarestorage.com/"
+    AWS_S3_ENDPOINT_URL = (
+        "https://f35295ca4b5593f15d54cf0ca7041025.r2.cloudflarestorage.com/"
+    )
     AWS_S3_CUSTOM_DOMAIN = "cdn.thegoodinternet.org"
     AWS_DEFAULT_ACL = "public-read"
-    AWS_S3_SIGNATURE_VERSION = 's3v4'
+    AWS_S3_SIGNATURE_VERSION = "s3v4"
 
     # Static Config
     STATIC_LOCATION = "static"
@@ -211,6 +213,7 @@ if DEBUG is False:
         "version": 1,
         "disable_existing_loggers": False,
         "handlers": {
+            "console": {"class": "logging.StreamHandler"},
             "file": {
                 "level": "DEBUG",
                 "class": "logging.FileHandler",
@@ -219,7 +222,7 @@ if DEBUG is False:
         },
         "loggers": {
             "django": {
-                "handlers": ["file"],
+                "handlers": ["file", "console"],
                 "level": "DEBUG",
                 "propagate": True,
             },
