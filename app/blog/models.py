@@ -53,7 +53,6 @@ class PostImage(models.Model):
 
     # https://stackoverflow.com/a/23927211
     def make_thumbnail(self):
-
         image = Image.open(self.image)
         image.thumbnail((1200, 630), Image.LANCZOS)
 
@@ -105,7 +104,6 @@ class PostImage(models.Model):
 
 
 class BlogPost(models.Model):
-
     title = models.CharField(max_length=256, blank=True)
     markdown_body = models.TextField()
     html_body = models.TextField(blank=True)
@@ -138,7 +136,6 @@ class BlogPost(models.Model):
             return "image/png"
 
     def pretty_preview(self):
-
         size_bins = [350, 300, 250, 200, 150, 100, 50]
         bin_index = 0
 
@@ -147,9 +144,10 @@ class BlogPost(models.Model):
 
         while preview_extracted is False:
             preview = ""
+            post_tokens = words.copy()
 
-            while (len(preview) < size_bins[bin_index]) and (len(words) > 0):
-                preview += words.pop(0)
+            while (len(preview) < size_bins[bin_index]) and (len(post_tokens) > 0):
+                preview += post_tokens.pop(0)
                 preview += " "
 
             preview = preview[:-1]
@@ -195,8 +193,8 @@ class BlogPost(models.Model):
     def save(self, *args, **kwargs):  # new
         title, body = self.extract_title()
         self.title = title
-        if len(self.preview) == 0:
-            self.preview = self.pretty_preview()
+        self.preview = "".join(BeautifulSoup(self.pretty_preview()).findAll(text=True))
+
         self.open_graph_protocol_description = "".join(
             BeautifulSoup(self.preview).findAll(text=True)
         )
@@ -235,5 +233,7 @@ class SocialImage(models.Model):
 @receiver(post_save, sender=BlogPost)
 def my_handler(**kwargs):
     print(kwargs["instance"])
-    if (SocialImage.objects.get(post=kwargs["instance"]) is None):
+    try:
+        SocialImage.objects.get(post=kwargs["instance"])
+    except SocialImage.DoesNotExist:
         SocialImage.objects.create(post=kwargs["instance"])
