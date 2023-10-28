@@ -1,13 +1,11 @@
 from accounts.models import Domain
+from blog.models import Blog, BlogPost, TopicTags
+from blog.serializers import BlogPostSerializer, BlogSerializer, TopicTagSerializer
 from django.shortcuts import render
-from rest_framework.generics import RetrieveUpdateDestroyAPIView, ListCreateAPIView
 from rest_framework import mixins
-from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.exceptions import APIException
-
-
-from blog.models import BlogPost, Blog, TopicTags
-from blog.serializers import BlogSerializer, BlogPostSerializer, TopicTagSerializer
+from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
+from rest_framework.permissions import AllowAny, IsAuthenticated
 
 
 # Create your views here.
@@ -18,7 +16,7 @@ def blog_detail(request, slug):
     blog_post = BlogPost.objects.get(slug=slug, parent_blog__blog_owner=user)
 
     context = {"meta": {"url": request.site.name, "name": str(user)}, "post": blog_post}
-    print(context['post'].tags)
+    print(context["post"].tags)
 
     return render(request, "blog/blog_detail.html", context)
 
@@ -33,11 +31,12 @@ def blog_index(request):
         host = Blog.objects.get(blog_owner=user)
     except Blog.DoesNotExist:
         host = None
-    
 
-    context = {"meta": {"url": request.site.name, "name": str(user)}, "posts": blogs, "blog": host}
-    print(context)
-    print(context['meta'])
+    context = {
+        "meta": {"url": request.site.name, "name": str(user)},
+        "posts": blogs,
+        "blog": host,
+    }
 
     return render(request, "blog/blog_index.html", context)
 
