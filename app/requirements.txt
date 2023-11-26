@@ -26,3 +26,4 @@ six==1.13.0
 soupsieve==2.4
 sqlparse==0.3.0
 urllib3==1.26.15
+django-admin-interface==0.26.1
