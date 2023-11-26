@@ -1,6 +1,6 @@
 import os
 import json
-from profile.models import FavoriteThing, Map, Design, Experience
+from profile.models import FavoriteThing, Map, Design
 from profile.serializers import ExperienceSerializer
 from django.core.files import File
 
@@ -53,7 +53,7 @@ def loadExperiences(config):
 
 def run():
     config = loadConfig()
-    # loadFavoriteThings(config)
-    # loadMaps(config)
-    # loadDesigns(config)
+    loadFavoriteThings(config)
+    loadMaps(config)
+    loadDesigns(config)
     loadExperiences(config)
