@@ -20,6 +20,10 @@ ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS", "*").split(" ")
 # Application definition
 
 INSTALLED_APPS = [
+    # Framework Overrides
+    "admin_interface",
+    "colorfield",
+    # Core Framework Apps
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -228,3 +232,8 @@ if DEBUG is False:
             },
         },
     }
+
+# ===============================
+#  = Admin Interface Settings = =
+X_FRAME_OPTIONS = "SAMEORIGIN"
+SILENCED_SYSTEM_CHECKS = ["security.W019"]
