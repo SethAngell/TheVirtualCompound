@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "TheVirtualCompound"
 description = "A simple, multitenat, blog and portfolio site."
-version = "v1.27.0"
+version = "0.1.1"
 authors = [{ name = "Seth Angell", email = "work@sethangell.com" }]
 readme = "README.md"
 license = { text = "MIT License" }

@@ -2,6 +2,21 @@
 
 
 
+## v0.1.1 (2023-11-26)
+
+### Fix
+
+* fix(admin): include admin package in requirements
+
+- also fixed semantic release ([`2846e5b`](https://github.com/SethAngell/TheVirtualCompound/commit/2846e5b5bc5280bd8ba68813d7d0375fbe3ceca1))
+
+### Unknown
+
+* Merge pull request #58 from SethAngell/ci/semantic-release-fix
+
+fix(admin): include admin package in requirements ([`8961892`](https://github.com/SethAngell/TheVirtualCompound/commit/89618928e45b33d2fb83c2605d9491f25e3402fb))
+
+
 ## v0.1.0 (2023-11-26)
 
 ### Ci
