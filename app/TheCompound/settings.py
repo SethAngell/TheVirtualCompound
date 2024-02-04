@@ -1,5 +1,6 @@
 import os
 from pathlib import Path
+from datetime import timedelta
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -188,14 +189,15 @@ REST_FRAMEWORK = {
 }
 
 CORS_ALLOWED_ORIGINS = os.environ.get(
-    "CORS_ALLOWED_ORIGINS", "http://localhost:5173"
-).split(" ")
+    "CORS_ALLOWED_ORIGINS", "http://localhost:5173,http://localhost:3000"
+).split(",")
 
 CORS_ALLOW_HEADERS = ["Authentication", "Authorization", "content-type"]
 
 REST_KNOX = {
     "USER_SERIALIZER": "accounts.serializers.CustomUserSerializer",
     "AUTO_REFRESH": True,
+    "TOKEN_TTL": timedelta(hours=24),
 }
 
 
