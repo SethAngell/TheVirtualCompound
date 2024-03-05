@@ -1,21 +1,20 @@
 import os
 import re
-import tempfile
-from ast import Bytes
 from io import BytesIO
+import uuid
 
 import markdown
 from accounts.models import CustomUser
 from bs4 import BeautifulSoup
 from django.core.files import File
 from django.core.files.base import ContentFile
-from django.core.files.storage import default_storage as storage
 from django.db import models
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.template.defaultfilters import slugify
 from django.urls import reverse
-from PIL import Image, UnidentifiedImageError
+from PIL import Image
+from blog.thumbnail_generator import generate_html_string, generate_screenshot
 
 
 class Blog(models.Model):
@@ -221,8 +220,12 @@ class SocialImage(models.Model):
     )
 
     def _generate_hero_image(self):
-        # do stuff
-        return None
+        thumbnail_content = generate_html_string(
+            self.post.title, "", self.post.parent_blog.blog_name
+        )
+        file_content = generate_screenshot(thumbnail_content)
+        file_name = f"{self.post.slug}-{uuid.uuid4()}.png"
+        return ContentFile(file_content, name=file_name)
 
     def save(self, *args, **kwargs):
         self.image = self._generate_hero_image()
@@ -232,8 +235,8 @@ class SocialImage(models.Model):
 
 @receiver(post_save, sender=BlogPost)
 def my_handler(**kwargs):
-    print(kwargs["instance"])
     try:
-        SocialImage.objects.get(post=kwargs["instance"])
+        existing_image = SocialImage.objects.get(post=kwargs["instance"])
+        existing_image.save()
     except SocialImage.DoesNotExist:
         SocialImage.objects.create(post=kwargs["instance"])

@@ -13,8 +13,9 @@ ENV DB_HOST "db"
 ENV DB_PORT 5432
 
 RUN apt-get update \
-  && apt-get -y install gcc postgresql libpq-dev vim \
+  && apt-get -y install gcc postgresql libpq-dev vim wkhtmltopdf \
   && apt-get clean
+
 
 # Handle all necessary dependencies
 RUN pip install --upgrade pip

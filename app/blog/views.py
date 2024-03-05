@@ -1,11 +1,10 @@
-from accounts.models import Domain
-from blog.models import Blog, BlogPost, TopicTags
+from blog.models import Blog, BlogPost, TopicTags, SocialImage
 from blog.serializers import BlogPostSerializer, BlogSerializer, TopicTagSerializer
 from django.shortcuts import render
 from rest_framework import mixins
 from rest_framework.exceptions import APIException
 from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
-from rest_framework.permissions import AllowAny, IsAuthenticated
+from rest_framework.permissions import IsAuthenticated
 
 
 # Create your views here.
@@ -14,9 +13,13 @@ def blog_detail(request, slug):
     user = request.site.user
 
     blog_post = BlogPost.objects.get(slug=slug, parent_blog__blog_owner=user)
+    social_image = SocialImage.objects.get(post=blog_post)
 
-    context = {"meta": {"url": request.site.name, "name": str(user)}, "post": blog_post}
-    print(context["post"].tags)
+    context = {
+        "meta": {"url": request.site.name, "name": str(user)},
+        "post": blog_post,
+        "social_image": social_image,
+    }
 
     return render(request, "blog/blog_detail.html", context)
 
