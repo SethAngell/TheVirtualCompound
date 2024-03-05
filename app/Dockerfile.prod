@@ -64,7 +64,7 @@ ENV USE_S3 1
 ENV DB_ENGINE django.db.backends.postgresql_psycopg2
 
 RUN apt-get update \
-  && apt-get -y install gcc postgresql libpq-dev vim gunicorn3 \
+  && apt-get -y install gcc postgresql libpq-dev vim gunicorn3 wkhtmltopdf \
   && apt-get clean
 
 # Handle all necessary dependencies
