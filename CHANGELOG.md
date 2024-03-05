@@ -2,6 +2,23 @@
 
 
 
+## v0.2.0 (2024-03-05)
+
+### Ci
+
+* ci(semantic-release-fix): settings update ([`6b00d9c`](https://github.com/SethAngell/TheVirtualCompound/commit/6b00d9cf8263424ce1f6a88372c169354a94f3fa))
+
+### Feature
+
+* feat(blog): auto-generate social images on blog post save ([`0c8bc63`](https://github.com/SethAngell/TheVirtualCompound/commit/0c8bc63626d8854b78d377e02868a7ea0401322d))
+
+### Unknown
+
+* Merge pull request #60 from SethAngell/ci/semantic-release-fix
+
+ci(semantic-release-fix): settings update ([`a0a4661`](https://github.com/SethAngell/TheVirtualCompound/commit/a0a4661479608a5c3ef9ccf883586abcd6039c49))
+
+
 ## v0.1.1 (2023-11-26)
 
 ### Fix
